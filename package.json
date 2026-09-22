@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "db:types": "supabase gen types typescript --linked > src/lib/supabase/types.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -38,6 +39,7 @@
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
+    "supabase": "^2.117.0",
     "tailwindcss": "4.3.3",
     "typescript": "^5.8.3"
   },

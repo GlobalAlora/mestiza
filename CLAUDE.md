@@ -112,8 +112,8 @@ Resend + React Email. 6 templates en `lib/email/`:
 ## Fases del proyecto
 
 - [x] Fase 0 — Plan
-- [x] Fase 1 — Fundaciones (actual)
-- [ ] Fase 2 — Datos (migraciones, RLS, seed)
+- [x] Fase 1 — Fundaciones
+- [x] Fase 2 — Datos (migraciones, RLS, seed)
 - [ ] Fase 3 — Catálogo público + SEO
 - [ ] Fase 4 — Carrito y checkout
 - [ ] Fase 5 — Admin
