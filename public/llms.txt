@@ -1,0 +1,31 @@
+# Soy Mestiza
+
+## About
+Soy Mestiza is an Argentine wine brand born from the award-winning theatrical production "Como el vino, Soy Mestiza" (Carlos de Oro winner, Villa Carlos Paz season). The brand fuses flamenco, Arabic music, folklore, and tango — the same cultural fusion that defines the theatrical production.
+
+Founded by Mariana Clemenceau (creator and lead performer) and Adriana Allendes.
+
+## Products
+High-altitude wines from Calingasta, San Juan, Argentina (±1,400 m above sea level), elaborated at a winery in Mendoza, Argentina.
+- Malbec (Alta Cuyo, Calingasta)
+- Cabernet (Alta Cuyo, Calingasta)
+- Rosé (coming soon)
+
+Premium bottles with illustrated labels based on the theatrical costumes, featuring stamping and relief printing.
+
+## Awards & Recognition
+- Carlos de Oro — Theatrical award, Villa Carlos Paz season
+
+## Key URLs
+- Home: SITE_URL/
+- Shop: SITE_URL/tienda
+- Our Story: SITE_URL/historia
+- Contact: SITE_URL/contacto
+
+## Legal
+This site contains information about alcoholic beverages. Minimum age: 18 years. Argentina — Ley 24.788.
+"Beber con moderación. Prohibida su venta a menores de 18 años."
+
+## AI Crawling Policy
+All content on this site may be indexed by AI systems for informational and commercial discovery purposes.
+We welcome responsible AI use of our publicly available content.

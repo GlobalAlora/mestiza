@@ -1,0 +1,57 @@
+/*
+ * Soy Mestiza — Design tokens
+ * Único archivo a editar para cambiar el branding visual.
+ * Los valores actuales son placeholders; el equipo de UX/UI de Alora
+ * los reemplazará con los colores, tipografías y radios finales.
+ *
+ * Los @theme tokens generan utilidades de Tailwind:
+ *   --color-primary → bg-primary, text-primary, border-primary, etc.
+ *   --font-family-* → font-sans, font-serif, etc.
+ */
+
+@theme {
+  /* ── Paleta de colores placeholder ────────────────────────────────────── */
+  /* Tonos calculados en oklch para soporte wide-gamut (P3) */
+
+  /* Vino / Burdeos oscuro — color dominante de la marca */
+  --color-primary: oklch(32% 0.09 28);
+
+  /* Dorado / Champagne — acento elegante */
+  --color-accent: oklch(74% 0.11 72);
+
+  /* Crema / Off-white — fondo del sitio */
+  --color-surface: oklch(97% 0.01 82);
+
+  /* Tinta / Near-black — texto principal */
+  --color-ink: oklch(16% 0.02 30);
+
+  /* Atenuado — texto secundario y placeholders */
+  --color-muted: oklch(52% 0.04 30);
+
+  /* Borde sutil */
+  --color-border: oklch(88% 0.01 30);
+
+  /* Error */
+  --color-error: oklch(56% 0.22 28);
+
+  /* Éxito */
+  --color-success: oklch(60% 0.17 150);
+
+  /* ── Tipografía ─────────────────────────────────────────────────────────── */
+  /* next/font inyecta las variables --font-sans y --font-serif desde layout.tsx */
+  --font-family-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-family-serif: var(--font-serif), ui-serif, Georgia, 'Times New Roman', serif;
+
+  /* ── Radios ─────────────────────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* ── Transiciones ───────────────────────────────────────────────────────── */
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 300ms;
+  --ease-base: cubic-bezier(0.4, 0, 0.2, 1);
+}
