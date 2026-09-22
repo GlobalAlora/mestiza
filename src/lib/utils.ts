@@ -39,6 +39,13 @@ export function truncate(str: string, maxLength: number): string {
 }
 
 /**
+ * Builds the public URL for a file in Supabase Storage.
+ */
+export function getStorageUrl(bucket: string, path: string): string {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
+}
+
+/**
  * Generates a URL-safe slug from a string.
  */
 export function slugify(str: string): string {
