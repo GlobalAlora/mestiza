@@ -1,21 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
-import type { Database } from '@/lib/supabase/types';
+import type { ProductCard, ProductVariant, ProductImage } from '../types';
 
-type ProductRow = Database['public']['Tables']['products']['Row'];
-type VariantRow = Database['public']['Tables']['product_variants']['Row'];
-type ImageRow = Database['public']['Tables']['product_images']['Row'];
-
-export type ProductVariant = Pick<
-  VariantRow,
-  'id' | 'name' | 'sku' | 'price_cents' | 'compare_at_price_cents' | 'stock' | 'position'
->;
-
-export type ProductImage = Pick<ImageRow, 'id' | 'storage_path' | 'alt_text' | 'position'>;
-
-export type ProductCard = ProductRow & {
-  product_variants: ProductVariant[];
-  product_images: ProductImage[];
-};
+export type { ProductCard, ProductVariant, ProductImage };
 
 const PRODUCT_SELECT = `
   *,
@@ -55,7 +41,10 @@ export async function getFeaturedProducts(limit = 3): Promise<ProductCard[]> {
   return (data ?? []).map(normalizeProduct);
 }
 
-// Helpers
+// Pure helpers (re-exported from utils so callers that import from here still work)
+export { getMinPrice, isInStock } from '../utils/product-helpers';
+
+// Internal
 
 function normalizeProduct(raw: ProductCard): ProductCard {
   return {
@@ -63,13 +52,4 @@ function normalizeProduct(raw: ProductCard): ProductCard {
     product_variants: (raw.product_variants ?? []).sort((a, b) => a.position - b.position),
     product_images: (raw.product_images ?? []).sort((a, b) => a.position - b.position),
   };
-}
-
-export function getMinPrice(variants: ProductVariant[]): number {
-  if (!variants.length) return 0;
-  return Math.min(...variants.map((v) => v.price_cents));
-}
-
-export function isInStock(variants: ProductVariant[]): boolean {
-  return variants.some((v) => v.stock > 0);
 }

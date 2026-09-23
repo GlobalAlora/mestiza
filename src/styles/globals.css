@@ -39,6 +39,15 @@ h6 {
   letter-spacing: -0.01em;
 }
 
+/* ── Interactividad ───────────────────────────────────────────────────────── */
+
+button,
+[role='button'],
+label[for],
+select {
+  cursor: pointer;
+}
+
 /* ── Foco visible (WCAG 2.2 AA) ──────────────────────────────────────────── */
 
 :focus-visible {
@@ -53,6 +62,24 @@ img,
 video {
   max-width: 100%;
   height: auto;
+}
+
+/* ── Animaciones ──────────────────────────────────────────────────────────── */
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.catalog-card-enter {
+  animation: fade-slide-up 0.35s ease both;
+  animation-delay: var(--card-delay, 0ms);
 }
 
 /* ── Reducción de movimiento (WCAG 2.2 AA) ───────────────────────────────── */

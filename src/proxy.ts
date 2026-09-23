@@ -8,7 +8,12 @@ import { NextResponse } from 'next/server';
  *
  * Note: In Next.js 16, this file replaces middleware.ts.
  */
-const CUSTOMER_AUTH_EXCLUDED = ['/mi-cuenta/login', '/mi-cuenta/registrarse'];
+const CUSTOMER_AUTH_EXCLUDED = [
+  '/mi-cuenta/login',
+  '/mi-cuenta/registrarse',
+  '/mi-cuenta/olvide-contrasena',
+  '/mi-cuenta/reset-password',
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
