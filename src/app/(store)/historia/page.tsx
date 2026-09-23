@@ -29,7 +29,9 @@ export default async function HistoriaPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20">
       <header className="mb-14 text-center">
-        <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">La obra</p>
+        <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
+          {c(content, 'historia.section_label', 'La obra')}
+        </p>
         <h1 className="text-primary font-serif text-4xl md:text-5xl">
           {c(content, 'historia.title', 'Como el vino, Soy Mestiza')}
         </h1>
@@ -52,7 +54,7 @@ export default async function HistoriaPage() {
 
         <div className="bg-primary/5 border-primary/15 my-8 rounded-sm border p-6">
           <p className="text-muted mb-2 text-xs font-semibold tracking-[0.2em] uppercase">
-            La región
+            {c(content, 'historia.region_label', 'La región')}
           </p>
           <p className="text-ink text-sm leading-relaxed">
             {c(content, 'historia.region_body', regionDefault)}
@@ -65,13 +67,13 @@ export default async function HistoriaPage() {
           href="/tienda"
           className="bg-primary text-surface inline-block px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase transition-opacity hover:opacity-85"
         >
-          Conocé los vinos
+          {c(content, 'historia.cta_tienda', 'Conocé los vinos')}
         </Link>
         <Link
           href="/contacto"
           className="text-muted hover:text-ink text-sm font-medium underline underline-offset-4 transition-colors"
         >
-          Contactanos
+          {c(content, 'historia.cta_contacto', 'Contactanos')}
         </Link>
       </div>
     </div>

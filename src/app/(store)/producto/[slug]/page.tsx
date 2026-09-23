@@ -15,6 +15,7 @@ import { VariantSelector } from '@/features/catalog/components/variant-selector'
 import { ProductGallery } from '@/features/catalog/components/product-gallery';
 import { ProductCard } from '@/features/catalog/components/product-card';
 import { getRelatedProducts } from '@/features/catalog/queries/get-products';
+import { getContentMap, c } from '@/lib/content';
 
 export const revalidate = 3600;
 
@@ -49,7 +50,10 @@ export default async function ProductPage({ params }: Props) {
 
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product.category_id, product.id, 3);
+  const [related, content] = await Promise.all([
+    getRelatedProducts(product.category_id, product.id, 3),
+    getContentMap(),
+  ]);
 
   const firstImage = product.product_images[0];
   const imageUrl = firstImage ? getStorageUrl('products', firstImage.storage_path) : null;
@@ -99,7 +103,7 @@ export default async function ProductPage({ params }: Props) {
         {/* Breadcrumb */}
         <nav className="text-muted mb-8 flex items-center gap-2 text-xs" aria-label="Ubicación">
           <Link href="/tienda" className="hover:text-primary transition-colors">
-            Tienda
+            {c(content, 'producto.breadcrumb_tienda', 'Tienda')}
           </Link>
           {product.categories && (
             <>
@@ -177,7 +181,10 @@ export default async function ProductPage({ params }: Props) {
                     <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
                       {t.altitude}
                     </dt>
-                    <dd className="text-ink mt-0.5">{String(attrs['altitude_masl'])} msnm</dd>
+                    <dd className="text-ink mt-0.5">
+                      {String(attrs['altitude_masl'])}{' '}
+                      {c(content, 'producto.unit_altitude', 'msnm')}
+                    </dd>
                   </div>
                 )}
                 {attrs['alcohol_pct'] && (
@@ -185,7 +192,10 @@ export default async function ProductPage({ params }: Props) {
                     <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
                       {t.alcohol}
                     </dt>
-                    <dd className="text-ink mt-0.5">{String(attrs['alcohol_pct'])}% alc.</dd>
+                    <dd className="text-ink mt-0.5">
+                      {String(attrs['alcohol_pct'])}
+                      {c(content, 'producto.unit_alcohol', '% alc.')}
+                    </dd>
                   </div>
                 )}
                 {attrs['tasting_notes'] && (
@@ -216,7 +226,7 @@ export default async function ProductPage({ params }: Props) {
         {related.length > 0 && (
           <div className="border-border mt-16 border-t pt-16">
             <h2 className="text-primary mb-8 text-center font-serif text-2xl">
-              También te puede gustar
+              {c(content, 'producto.related_title', 'También te puede gustar')}
             </h2>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((p) => (

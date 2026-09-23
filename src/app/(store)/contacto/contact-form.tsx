@@ -6,7 +6,10 @@ import { esAR } from '@/i18n/es-AR';
 
 const initial: ContactFormState = { status: 'idle' };
 
-export function ContactForm() {
+type Props = { content: Record<string, string> };
+
+export function ContactForm({ content }: Props) {
+  const t2 = (key: string, fb: string) => content[key]?.trim() || fb;
   const [state, action, pending] = useActionState(submitContact, initial);
   const t = esAR.contact;
 
@@ -28,7 +31,7 @@ export function ContactForm() {
           htmlFor="name"
           className="text-muted text-xs font-semibold tracking-[0.15em] uppercase"
         >
-          Nombre
+          {t2('contacto.field_nombre', 'Nombre')}
         </label>
         <input
           id="name"
@@ -52,7 +55,7 @@ export function ContactForm() {
           htmlFor="email"
           className="text-muted text-xs font-semibold tracking-[0.15em] uppercase"
         >
-          Email
+          {t2('contacto.field_email', 'Email')}
         </label>
         <input
           id="email"
@@ -76,7 +79,7 @@ export function ContactForm() {
           htmlFor="message"
           className="text-muted text-xs font-semibold tracking-[0.15em] uppercase"
         >
-          Mensaje
+          {t2('contacto.field_mensaje', 'Mensaje')}
         </label>
         <textarea
           id="message"

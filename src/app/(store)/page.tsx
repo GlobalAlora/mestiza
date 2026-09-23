@@ -80,7 +80,7 @@ export default async function HomePage() {
                 href="/tienda"
                 className="text-primary text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
               >
-                Ver toda la tienda
+                {c(content, 'home.featured_all_cta', 'Ver toda la tienda')}
               </Link>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default async function HomePage() {
       >
         <div className="mx-auto max-w-prose">
           <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
-            La obra
+            {c(content, 'home.obra_label', 'La obra')}
           </p>
           <h2 id="obra-heading" className="text-primary font-serif text-3xl md:text-4xl">
             {c(content, 'home.obra_title', 'Como el vino, Soy Mestiza')}

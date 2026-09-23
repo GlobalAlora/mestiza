@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { getCategories } from '@/features/catalog/queries/get-categories';
 import { getPublishedProducts } from '@/features/catalog/queries/get-products';
 import { CatalogShell } from '@/features/catalog/components/catalog-shell';
+import { getContentMap, c } from '@/lib/content';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,11 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function TiendaPage() {
-  const [products, categories] = await Promise.all([getPublishedProducts(), getCategories()]);
+  const [products, categories, content] = await Promise.all([
+    getPublishedProducts(),
+    getCategories(),
+    getContentMap(),
+  ]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
@@ -23,7 +28,9 @@ export default async function TiendaPage() {
         <p className="text-muted mb-2 text-xs font-semibold tracking-[0.3em] uppercase">
           {siteConfig.name}
         </p>
-        <h1 className="text-primary font-serif text-4xl md:text-5xl">Tienda</h1>
+        <h1 className="text-primary font-serif text-4xl md:text-5xl">
+          {c(content, 'tienda.title', 'Tienda')}
+        </h1>
       </header>
 
       <Suspense>
