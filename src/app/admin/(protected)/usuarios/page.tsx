@@ -1,3 +1,4 @@
+import type { Route } from 'next';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { formatDate, formatPrice } from '@/lib/utils';
 import Link from 'next/link';
@@ -87,7 +88,7 @@ export default async function UsuariosPage({ searchParams }: Props) {
         ].map(({ label, value }) => (
           <Link
             key={value}
-            href={`/admin/usuarios${value ? `?rol=${value}` : ''}`}
+            href={`/admin/usuarios${value ? `?rol=${value}` : ''}` as Route}
             className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
               (rol ?? '') === value
                 ? 'bg-primary text-surface'

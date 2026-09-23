@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
@@ -13,6 +12,7 @@ import {
 } from '@/features/catalog/queries/get-product-by-slug';
 import { getMinPrice, isInStock } from '@/features/catalog/queries/get-products';
 import { VariantSelector } from '@/features/catalog/components/variant-selector';
+import { ProductGallery } from '@/features/catalog/components/product-gallery';
 
 export const revalidate = 3600;
 
@@ -114,23 +114,8 @@ export default async function ProductPage({ params }: Props) {
 
         {/* Layout principal */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          {/* Imagen */}
-          <div className="bg-surface relative aspect-[3/4] overflow-hidden">
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt={firstImage?.alt_text ?? product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <span className="text-primary/10 font-serif text-8xl select-none">SM</span>
-              </div>
-            )}
-          </div>
+          {/* Galería */}
+          <ProductGallery images={product.product_images} productName={product.name} />
 
           {/* Detalle */}
           <div className="flex flex-col gap-8">

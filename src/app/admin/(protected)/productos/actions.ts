@@ -11,6 +11,7 @@ const ALLOWED_IMAGE_TYPES: Record<string, string> = {
   'image/jpg': 'jpg',
   'image/png': 'png',
   'image/webp': 'webp',
+  'image/avif': 'avif',
 };
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -150,7 +151,7 @@ export async function uploadProductImage(productId: string, formData: FormData) 
   if (!file || file.size === 0) return;
 
   if (!ALLOWED_IMAGE_TYPES[file.type])
-    throw new Error('Tipo de archivo no permitido. Usá JPG, PNG o WebP.');
+    throw new Error('Tipo de archivo no permitido. Usá JPG, PNG, WebP o AVIF.');
   if (file.size > MAX_IMAGE_SIZE) throw new Error('El archivo supera el límite de 5 MB.');
 
   const ext = ALLOWED_IMAGE_TYPES[file.type];
