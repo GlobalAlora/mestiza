@@ -4,7 +4,8 @@ import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { createMpPreference } from '@/lib/mercadopago';
-import { sendOrderReceivedEmail } from '@/lib/email';
+import { sendOrderReceivedEmail, sendNewOrderAdminEmail } from '@/lib/email';
+import { siteConfig } from '@/config/site';
 import type { ActiveShippingMethod } from './queries';
 
 const contactSchema = z.object({
@@ -184,8 +185,7 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
     await db.from('orders').update({ mp_preference_id: mpResult.preferenceId }).eq('id', order.id);
   }
 
-  // Send confirmation email (fire and forget)
-  sendOrderReceivedEmail({
+  const emailPayload = {
     orderNumber: String(order.order_number),
     firstName: data.contact.firstName,
     email: data.contact.email,
@@ -199,7 +199,15 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
     shippingCents,
     totalCents,
     shippingMethod: shippingMethod.name,
-  }).catch(() => {});
+  };
+
+  // Email al cliente — confirmación de recepción
+  sendOrderReceivedEmail(emailPayload).catch(() => {});
+
+  // Email al admin — notificación de nuevo pedido
+  // Destination: ADMIN_NOTIFICATION_EMAIL env var, fallback to siteConfig contact email
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL ?? siteConfig.contact.email;
+  sendNewOrderAdminEmail({ ...emailPayload, adminEmail }).catch(() => {});
 
   return { ok: true, accessToken, initPoint };
 }

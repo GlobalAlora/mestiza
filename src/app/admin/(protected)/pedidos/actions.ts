@@ -3,6 +3,7 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { Enums } from '@/lib/supabase/types';
 import { revalidatePath } from 'next/cache';
+import { sendOrderStatusEmail } from '@/lib/email';
 
 export async function updateOrderStatus(
   orderId: string,
@@ -17,6 +18,22 @@ export async function updateOrderStatus(
     status,
     notes: notes || null,
   });
+
+  // Send status update email to customer (fire and forget)
+  const { data: order } = await db
+    .from('orders')
+    .select('email, first_name, order_number')
+    .eq('id', orderId)
+    .single();
+
+  if (order) {
+    sendOrderStatusEmail({
+      status,
+      orderNumber: String(order.order_number),
+      firstName: order.first_name,
+      email: order.email,
+    }).catch(() => {});
+  }
 
   revalidatePath(`/admin/pedidos/${orderId}`);
   revalidatePath('/admin/pedidos');

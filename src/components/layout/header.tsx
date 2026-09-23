@@ -6,6 +6,7 @@ import { mainNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { useCartStore } from '@/features/cart/store';
 import { CartCount } from '@/features/cart/cart-count';
+import { AccountIcon } from './account-icon';
 
 function CartIcon() {
   return (
@@ -103,6 +104,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <AccountIcon />
+
           <button
             onClick={openDrawer}
             aria-label="Abrir carrito de compras"

@@ -95,3 +95,54 @@ export async function sendNewOrderAdminEmail(
     html,
   });
 }
+
+const statusMessages: Record<string, { subject: string; body: string }> = {
+  confirmed: {
+    subject: 'Tu pedido fue confirmado',
+    body: 'Confirmamos tu pedido. Estamos preparándolo con cuidado.',
+  },
+  preparing: {
+    subject: 'Tu pedido está en preparación',
+    body: 'Estamos preparando tu pedido. Pronto te avisamos cuando esté listo.',
+  },
+  shipped: {
+    subject: 'Tu pedido fue enviado',
+    body: 'Tu pedido está en camino. El transporte se pondrá en contacto contigo para coordinar la entrega.',
+  },
+  ready_for_pickup: {
+    subject: 'Tu pedido está listo para retirar',
+    body: 'Tu pedido está listo para retirar. Coordinaremos el punto de encuentro por WhatsApp.',
+  },
+  delivered: {
+    subject: 'Tu pedido fue entregado',
+    body: '¡Tu pedido llegó! Esperamos que disfrutes los vinos. Salud 🍷',
+  },
+  cancelled: {
+    subject: 'Tu pedido fue cancelado',
+    body: 'Lamentamos informarte que tu pedido fue cancelado. Si tenés alguna duda, escribinos a hola@soymestiza.com.',
+  },
+};
+
+export async function sendOrderStatusEmail(data: {
+  status: string;
+  orderNumber: string;
+  firstName: string;
+  email: string;
+}): Promise<void> {
+  const msg = statusMessages[data.status];
+  if (!msg) return;
+
+  const html = `
+    <h2>${msg.subject}, ${data.firstName}.</h2>
+    <p>${msg.body}</p>
+    <p>Pedido <strong>#${data.orderNumber}</strong></p>
+    <hr />
+    <p style="color:#888;font-size:12px">Soy Mestiza — Vinos de altura del corazón de Cuyo.</p>
+  `;
+
+  await sendEmail({
+    to: data.email,
+    subject: `${msg.subject} — Pedido #${data.orderNumber} · Soy Mestiza`,
+    html,
+  });
+}
