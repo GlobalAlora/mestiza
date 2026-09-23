@@ -1,38 +1,59 @@
 import { createAdminClient } from '@/lib/supabase/admin';
-import { formatDate } from '@/lib/utils';
+import { formatDate, formatPrice } from '@/lib/utils';
 import Link from 'next/link';
 
 export const metadata = { title: 'Usuarios' };
 
-type Props = { searchParams: Promise<{ error?: string }> };
+type Props = { searchParams: Promise<{ error?: string; rol?: string }> };
 
 export default async function UsuariosPage({ searchParams }: Props) {
-  const { error } = await searchParams;
+  const { error, rol } = await searchParams;
   const db = createAdminClient();
 
-  const [{ data: authData }, { data: profiles }] = await Promise.all([
+  const [{ data: authData }, { data: profiles }, { data: orderStats }] = await Promise.all([
     db.auth.admin.listUsers({ perPage: 1000 }),
-    db.from('profiles').select('id, first_name, last_name, role, phone, created_at'),
+    db.from('profiles').select('id, first_name, last_name, role, phone'),
+    db.from('orders').select('user_id, total_cents').not('user_id', 'is', null),
   ]);
 
   const profileMap = new Map((profiles ?? []).map((p) => [p.id, p]));
 
-  const users = (authData?.users ?? []).map((u) => ({
+  const orderMap = new Map<string, { count: number; total: number }>();
+  for (const o of orderStats ?? []) {
+    if (!o.user_id) continue;
+    const cur = orderMap.get(o.user_id) ?? { count: 0, total: 0 };
+    orderMap.set(o.user_id, { count: cur.count + 1, total: cur.total + o.total_cents });
+  }
+
+  let users = (authData?.users ?? []).map((u) => ({
     id: u.id,
     email: u.email ?? '',
     createdAt: u.created_at,
     lastSignIn: u.last_sign_in_at ?? null,
     profile: profileMap.get(u.id) ?? null,
+    orders: orderMap.get(u.id) ?? { count: 0, total: 0 },
   }));
 
+  if (rol === 'admin') users = users.filter((u) => u.profile?.role === 'admin');
+  if (rol === 'customer')
+    users = users.filter((u) => (u.profile?.role ?? 'customer') === 'customer');
+
   users.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const totalUsers = authData?.users?.length ?? 0;
+  const totalCustomers = (authData?.users ?? []).filter(
+    (u) => (profileMap.get(u.id)?.role ?? 'customer') === 'customer',
+  ).length;
+  const totalAdmins = totalUsers - totalCustomers;
 
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-ink text-2xl font-semibold">Usuarios</h1>
-          <p className="text-muted mt-0.5 text-sm">{users.length} usuarios registrados</p>
+          <p className="text-muted mt-0.5 text-sm">
+            {totalUsers} en total · {totalCustomers} clientes · {totalAdmins} admins
+          </p>
         </div>
         <Link
           href="/admin/usuarios/nuevo"
@@ -57,18 +78,45 @@ export default async function UsuariosPage({ searchParams }: Props) {
 
       {error && <p className="text-error mb-4 rounded bg-red-50 px-3 py-2 text-sm">{error}</p>}
 
+      {/* Filtros por rol */}
+      <div className="mb-4 flex gap-2">
+        {[
+          { label: 'Todos', value: '' },
+          { label: 'Clientes', value: 'customer' },
+          { label: 'Admins', value: 'admin' },
+        ].map(({ label, value }) => (
+          <Link
+            key={value}
+            href={`/admin/usuarios${value ? `?rol=${value}` : ''}`}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              (rol ?? '') === value
+                ? 'bg-primary text-surface'
+                : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+            }`}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
+
       <div className="overflow-hidden rounded-lg bg-white shadow-sm">
         {users.length === 0 ? (
-          <p className="text-muted px-6 py-10 text-center text-sm">No hay usuarios registrados.</p>
+          <p className="text-muted px-6 py-10 text-center text-sm">No se encontraron usuarios.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="border-b">
+              <thead className="border-b bg-zinc-50">
                 <tr>
-                  <th className="text-muted px-6 py-3 text-left font-medium">Usuario</th>
-                  <th className="text-muted px-6 py-3 text-left font-medium">Rol</th>
-                  <th className="text-muted px-6 py-3 text-left font-medium">Último acceso</th>
-                  <th className="text-muted px-6 py-3 text-left font-medium">Registrado</th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">Usuario</th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">Rol</th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">Pedidos</th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">
+                    Total gastado
+                  </th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">
+                    Último acceso
+                  </th>
+                  <th className="text-muted px-6 py-3 text-left text-xs font-medium">Registrado</th>
                   <th className="px-6 py-3" />
                 </tr>
               </thead>
@@ -93,6 +141,20 @@ export default async function UsuariosPage({ searchParams }: Props) {
                         >
                           {role === 'admin' ? 'Admin' : 'Cliente'}
                         </span>
+                      </td>
+                      <td className="text-ink px-6 py-3 text-xs font-medium">
+                        {u.orders.count > 0 ? (
+                          u.orders.count
+                        ) : (
+                          <span className="text-muted">—</span>
+                        )}
+                      </td>
+                      <td className="text-ink px-6 py-3 text-xs">
+                        {u.orders.total > 0 ? (
+                          formatPrice(u.orders.total)
+                        ) : (
+                          <span className="text-muted">—</span>
+                        )}
                       </td>
                       <td className="text-muted px-6 py-3 text-xs">
                         {u.lastSignIn ? formatDate(u.lastSignIn) : 'Nunca'}
