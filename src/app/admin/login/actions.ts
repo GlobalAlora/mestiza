@@ -15,7 +15,7 @@ export async function loginAction(formData: FormData) {
     redirect(`/admin/login?error=${encodeURIComponent('Credenciales inválidas')}`);
   }
 
-  redirect(next);
+  redirect((next || '/admin') as '/admin');
 }
 
 export async function logoutAction() {

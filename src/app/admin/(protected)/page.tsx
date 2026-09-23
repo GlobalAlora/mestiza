@@ -63,12 +63,18 @@ export default async function AdminDashboard() {
 
       {/* Stats */}
       <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {[
-          { label: 'Productos publicados', value: stats.products, href: '/admin/productos' },
-          { label: 'Pedidos totales', value: stats.orders, href: '/admin/pedidos' },
-          { label: 'Categorías', value: stats.categories, href: '/admin/categorias' },
-          { label: 'Ventas aprobadas', value: formatPrice(stats.revenue), href: '/admin/pedidos' },
-        ].map(({ label, value, href }) => (
+        {(
+          [
+            { label: 'Productos publicados', value: stats.products, href: '/admin/productos' },
+            { label: 'Pedidos totales', value: stats.orders, href: '/admin/pedidos' },
+            { label: 'Categorías', value: stats.categories, href: '/admin/categorias' },
+            {
+              label: 'Ventas aprobadas',
+              value: formatPrice(stats.revenue),
+              href: '/admin/pedidos',
+            },
+          ] as const
+        ).map(({ label, value, href }) => (
           <Link
             key={label}
             href={href}
@@ -136,11 +142,13 @@ export default async function AdminDashboard() {
 
       {/* Quick links */}
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {[
-          { href: '/admin/productos/nuevo', label: '+ Nuevo producto' },
-          { href: '/admin/categorias/nueva', label: '+ Nueva categoría' },
-          { href: '/admin/envios/nueva', label: '+ Método de envío' },
-        ].map(({ href, label }) => (
+        {(
+          [
+            { href: '/admin/productos/nuevo', label: '+ Nuevo producto' },
+            { href: '/admin/categorias/nueva', label: '+ Nueva categoría' },
+            { href: '/admin/envios/nueva', label: '+ Método de envío' },
+          ] as const
+        ).map(({ href, label }) => (
           <Link
             key={href}
             href={href}
