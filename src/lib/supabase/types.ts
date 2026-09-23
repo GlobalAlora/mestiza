@@ -181,6 +181,7 @@ export interface Database {
       profiles: {
         Row: {
           id: string
+          role: Database['public']['Enums']['user_role']
           first_name: string | null
           last_name: string | null
           phone: string | null
@@ -189,6 +190,7 @@ export interface Database {
         }
         Insert: {
           id: string
+          role?: Database['public']['Enums']['user_role']
           first_name?: string | null
           last_name?: string | null
           phone?: string | null
@@ -197,6 +199,7 @@ export interface Database {
         }
         Update: {
           id?: string
+          role?: Database['public']['Enums']['user_role']
           first_name?: string | null
           last_name?: string | null
           phone?: string | null
@@ -500,6 +503,7 @@ export interface Database {
       payment_status: 'pending' | 'approved' | 'rejected' | 'refunded'
       product_status: 'draft' | 'published' | 'archived'
       shipping_method_type: 'delivery' | 'pickup' | 'theater_pickup'
+      user_role: 'customer' | 'admin'
     }
     CompositeTypes: {
       [_ in never]: never
