@@ -53,7 +53,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-AR" dir="ltr" className={`${fontSans.variable} ${fontSerif.variable}`}>
+    <html
+      lang="es-AR"
+      dir="ltr"
+      className={`${fontSans.variable} ${fontSerif.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <AgeGate />
         {children}

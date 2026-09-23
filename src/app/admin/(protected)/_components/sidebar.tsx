@@ -137,6 +137,28 @@ const nav = [
     ),
   },
   {
+    href: '/admin/usuarios' as const,
+    label: 'Usuarios',
+    icon: (
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="8" r="4" />
+        <path d="M20 21a8 8 0 1 0-16 0" />
+        <line x1="15" y1="11" x2="22" y2="11" />
+        <line x1="19" y1="8" x2="19" y2="14" />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/contenido' as const,
     label: 'Contenido',
     icon: (
