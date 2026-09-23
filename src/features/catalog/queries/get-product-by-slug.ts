@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { createClient as createAnonClient } from '@supabase/supabase-js';
 import type { Database } from '@/lib/supabase/types';
 import type { ProductVariant, ProductImage } from './get-products';
 
@@ -40,7 +41,11 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
 }
 
 export async function getAllPublishedSlugs(): Promise<string[]> {
-  const supabase = await createClient();
+  // Uses anon client without cookies — safe in generateStaticParams (no request context)
+  const supabase = createAnonClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
   const { data, error } = await supabase.from('products').select('slug').eq('status', 'published');
 
   if (error) throw new Error(`getAllPublishedSlugs: ${error.message}`);

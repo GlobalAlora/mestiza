@@ -1,6 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import { mainNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
+import { useCartStore } from '@/features/cart/store';
+import { CartCount } from '@/features/cart/cart-count';
 
 function CartIcon() {
   return (
@@ -24,6 +28,8 @@ function CartIcon() {
 }
 
 export function Header() {
+  const openDrawer = useCartStore((s) => s.openDrawer);
+
   return (
     <header className="border-border bg-surface/90 sticky top-0 z-40 w-full border-b backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -59,14 +65,14 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link
-            href="/carrito"
-            aria-label="Carrito de compras"
-            className="text-ink hover:text-primary transition-colors"
+          <button
+            onClick={openDrawer}
+            aria-label="Abrir carrito de compras"
+            className="text-ink hover:text-primary relative transition-colors"
           >
             <CartIcon />
-          </Link>
-          {/* Mobile menu — Phase 3 */}
+            <CartCount />
+          </button>
         </div>
       </div>
     </header>

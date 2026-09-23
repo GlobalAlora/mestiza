@@ -148,7 +148,13 @@ export default async function ProductPage({ params }: Props) {
             </div>
 
             {/* Selector de variantes + añadir al carrito */}
-            <VariantSelector variants={product.product_variants} productName={product.name} />
+            <VariantSelector
+              variants={product.product_variants}
+              productName={product.name}
+              productId={product.id}
+              slug={product.slug}
+              imagePath={firstImage?.storage_path ?? null}
+            />
 
             {/* Atributos del vino */}
             {Object.keys(attrs).length > 0 && (

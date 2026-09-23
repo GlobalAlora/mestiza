@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { cn, formatPrice } from '@/lib/utils';
 import type { Database } from '@/lib/supabase/types';
+import { useCartStore } from '@/features/cart/store';
 
 type Variant = Pick<
   Database['public']['Tables']['product_variants']['Row'],
@@ -12,14 +13,32 @@ type Variant = Pick<
 type Props = {
   variants: Variant[];
   productName: string;
+  productId: string;
+  slug: string;
+  imagePath: string | null;
 };
 
-export function VariantSelector({ variants, productName }: Props) {
+export function VariantSelector({ variants, productName, productId, slug, imagePath }: Props) {
   const [selectedId, setSelectedId] = useState(variants[0]?.id ?? '');
+  const addItem = useCartStore((s) => s.addItem);
 
   const selected = variants.find((v) => v.id === selectedId) ?? variants[0];
   const inStock = (selected?.stock ?? 0) > 0;
   const lowStock = inStock && (selected?.stock ?? 0) <= 5;
+
+  function handleAddToCart() {
+    if (!selected || !inStock) return;
+    addItem({
+      variantId: selected.id,
+      productId,
+      name: productName,
+      variantName: selected.name,
+      sku: selected.sku,
+      price: selected.price_cents,
+      imagePath,
+      slug,
+    });
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -73,8 +92,9 @@ export function VariantSelector({ variants, productName }: Props) {
         </p>
       )}
 
-      {/* Add to cart — TODO Fase 4: conectar con useCartStore().addItem */}
+      {/* Add to cart */}
       <button
+        onClick={handleAddToCart}
         disabled={!inStock}
         aria-label={
           inStock
