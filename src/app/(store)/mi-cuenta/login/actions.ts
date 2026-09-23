@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit } from '@/lib/ratelimit';
 import { redirect } from 'next/navigation';
 
 export async function loginAction(formData: FormData) {
@@ -8,6 +9,13 @@ export async function loginAction(formData: FormData) {
   const password = formData.get('password') as string;
   const rawNext = formData.get('next') as string;
   const next = rawNext?.startsWith('/') ? rawNext : '/mi-cuenta';
+
+  const rl = await checkRateLimit('login', email);
+  if (!rl.ok) {
+    redirect(
+      `/mi-cuenta/login?error=${encodeURIComponent(rl.error)}&next=${encodeURIComponent(next)}`,
+    );
+  }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -26,6 +34,11 @@ export async function registerAction(formData: FormData) {
   const password = formData.get('password') as string;
   const firstName = formData.get('firstName') as string;
   const lastName = formData.get('lastName') as string;
+
+  const rl = await checkRateLimit('register', email);
+  if (!rl.ok) {
+    redirect(`/mi-cuenta/registrarse?error=${encodeURIComponent(rl.error)}`);
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({

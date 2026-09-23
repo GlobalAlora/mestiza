@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { createMpPreference } from '@/lib/mercadopago';
 import { sendOrderReceivedEmail, sendNewOrderAdminEmail } from '@/lib/email';
+import { checkRateLimit } from '@/lib/ratelimit';
 import { siteConfig } from '@/config/site';
 import type { ActiveShippingMethod } from './queries';
 
@@ -62,6 +63,10 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   }
 
   const data = parsed.data;
+
+  const rl = await checkRateLimit('checkout', data.contact.email);
+  if (!rl.ok) return { ok: false, error: rl.error };
+
   const db = createAdminClient();
 
   // Re-fetch all variant prices from DB — never trust client prices

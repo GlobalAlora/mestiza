@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { buildMetadata } from '@/lib/seo';
+import { createClient } from '@/lib/supabase/server';
 import { RegisterForm } from './_components/register-form';
 
 export const metadata: Metadata = buildMetadata({
@@ -14,6 +16,12 @@ type Props = {
 };
 
 export default async function RegistrarsePage({ searchParams }: Props) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) redirect('/mi-cuenta');
+
   const { error } = await searchParams;
 
   return (

@@ -84,11 +84,25 @@ export async function updateProduct(id: string, formData: FormData) {
 
   if (error) throw new Error(error.message);
 
-  // Sync variants: delete all and re-insert (simple approach)
-  await db.from('product_variants').delete().eq('product_id', id);
+  // Sync variants: upsert existing, insert new, delete removed ones.
+  // Preserves IDs so order_items history stays intact.
+  const incomingIds = variants.filter((v) => v.id).map((v) => v.id as string);
+
+  // Delete variants no longer in the form (that aren't referenced by orders)
+  if (incomingIds.length > 0) {
+    await db
+      .from('product_variants')
+      .delete()
+      .eq('product_id', id)
+      .not('id', 'in', `(${incomingIds.join(',')})`);
+  } else {
+    await db.from('product_variants').delete().eq('product_id', id);
+  }
+
   if (variants.length > 0) {
-    await db.from('product_variants').insert(
+    const { error: upsertErr } = await db.from('product_variants').upsert(
       variants.map((v, i) => ({
+        ...(v.id ? { id: v.id } : {}),
         product_id: id,
         name: v.name,
         sku: v.sku,
@@ -98,7 +112,9 @@ export async function updateProduct(id: string, formData: FormData) {
         weight_grams: v.weight_grams,
         position: i,
       })),
+      { onConflict: 'id' },
     );
+    if (upsertErr) throw new Error(upsertErr.message);
   }
 
   revalidatePath('/admin/productos');

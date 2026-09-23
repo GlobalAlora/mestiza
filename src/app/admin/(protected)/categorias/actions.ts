@@ -44,7 +44,8 @@ export async function updateCategory(id: string, formData: FormData) {
 export async function deleteCategory(id: string) {
   await requireAdminSession();
   const db = createAdminClient();
-  await db.from('categories').delete().eq('id', id);
+  const { error } = await db.from('categories').delete().eq('id', id);
+  if (error) throw new Error(error.message);
   revalidatePath('/admin/categorias');
   revalidatePath('/tienda');
 }

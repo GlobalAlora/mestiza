@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { sendEmail } from '@/lib/email';
+import { checkRateLimit } from '@/lib/ratelimit';
 import { siteConfig } from '@/config/site';
 
 const contactSchema = z.object({
@@ -19,6 +20,9 @@ export async function submitContact(
   _prev: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
+  const rl = await checkRateLimit('contact');
+  if (!rl.ok) return { status: 'error', errors: { root: rl.error } };
+
   const raw = {
     name: formData.get('name'),
     email: formData.get('email'),
