@@ -1,11 +1,21 @@
 'use client';
 
+import { useSyncExternalStore } from 'react';
 import { useCartStore } from './store';
+
+function subscribe() {
+  return () => {};
+}
 
 export function CartCount() {
   const count = useCartStore((s) => s.itemCount());
+  const isMounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
-  if (count === 0) return null;
+  if (!isMounted || count === 0) return null;
 
   return (
     <span

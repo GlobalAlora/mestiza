@@ -11,11 +11,6 @@ export const revalidate = 3600;
 
 type Props = { params: Promise<{ category: string }> };
 
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((c) => ({ category: c.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category: slug } = await params;
   const category = await getCategoryBySlug(slug);

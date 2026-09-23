@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { mainNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
@@ -27,8 +28,43 @@ function CartIcon() {
   );
 }
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {open ? (
+        <>
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </>
+      ) : (
+        <>
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function Header() {
   const openDrawer = useCartStore((s) => s.openDrawer);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function closeMobile() {
+    setMobileOpen(false);
+  }
 
   return (
     <header className="border-border bg-surface/90 sticky top-0 z-40 w-full border-b backdrop-blur-sm">
@@ -45,12 +81,14 @@ export function Header() {
           href="/"
           className="text-primary font-serif text-xl font-medium tracking-wide transition-opacity hover:opacity-80"
           aria-label={`${siteConfig.name} — inicio`}
+          onClick={closeMobile}
         >
           {siteConfig.name}
         </Link>
 
-        <nav aria-label="Navegación principal">
-          <ul className="hidden items-center gap-8 md:flex" role="list">
+        {/* Desktop nav */}
+        <nav aria-label="Navegación principal" className="hidden md:block">
+          <ul className="flex items-center gap-8" role="list">
             {mainNav.map((item) => (
               <li key={item.href}>
                 <Link
@@ -73,8 +111,37 @@ export function Header() {
             <CartIcon />
             <CartCount />
           </button>
+
+          {/* Hamburger — mobile only */}
+          <button
+            className="text-ink hover:text-primary transition-colors md:hidden"
+            aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            <HamburgerIcon open={mobileOpen} />
+          </button>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <nav aria-label="Navegación móvil" className="border-border bg-surface border-t md:hidden">
+          <ul className="flex flex-col py-2" role="list">
+            {mainNav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-ink hover:text-primary block px-4 py-3 text-sm transition-colors"
+                  onClick={closeMobile}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

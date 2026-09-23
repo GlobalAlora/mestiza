@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef, useEffect, useSyncExternalStore } from 'react';
 import { esAR } from '@/i18n/es-AR';
 
 const COOKIE_NAME = 'sm_age_ok';
@@ -14,16 +14,34 @@ function isVerified(): boolean {
   return document.cookie.split(';').some((c) => c.trim().startsWith(`${COOKIE_NAME}=`));
 }
 
+// Empty subscribe — we don't need reactive updates from the cookie store.
+// useSyncExternalStore handles the server→client snapshot switch internally.
+function subscribe() {
+  return () => {};
+}
+
 export function AgeGate() {
-  // Lazy initializer runs only on the client; returns false during SSR to avoid hydration mismatch
-  const [open, setOpen] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return !isVerified();
-  });
+  // Server snapshot = false → dialog hidden during SSR (no cookie check on server).
+  // Client snapshot = !isVerified() → read cookie after hydration.
+  // React reconciles the mismatch silently; no hydration warning.
+  const notVerified = useSyncExternalStore(
+    subscribe,
+    () => !isVerified(),
+    () => false,
+  );
+
+  // Tracks if the user dismissed the gate in this session.
+  // Set only from event handlers, never from effects → no lint error.
+  const [dismissed, setDismissed] = useState(false);
+
+  const open = notVerified && !dismissed;
+
   const overlayRef = useRef<HTMLDivElement>(null);
   const confirmRef = useRef<HTMLButtonElement>(null);
   const t = esAR.ageGate;
 
+  // Body scroll lock and focus management — DOM mutations are fine in effects,
+  // the lint rule only restricts setState inside effects.
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = 'hidden';
@@ -52,7 +70,7 @@ export function AgeGate() {
 
   function confirm() {
     setVerified();
-    setOpen(false);
+    setDismissed(true);
   }
 
   function reject() {

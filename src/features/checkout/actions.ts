@@ -23,14 +23,18 @@ const addressSchema = z.object({
   postalCode: z.string().min(1),
 });
 
+const uuidSchema = z
+  .string()
+  .regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i, 'ID inválido');
+
 const cartItemSchema = z.object({
-  variantId: z.string().uuid(),
+  variantId: uuidSchema,
   quantity: z.number().int().positive(),
 });
 
 const checkoutSchema = z.object({
   contact: contactSchema,
-  shippingMethodId: z.string().uuid(),
+  shippingMethodId: uuidSchema,
   address: addressSchema.optional(),
   notes: z.string().max(500).optional(),
   ageVerified: z.boolean().refine((v) => v, { message: 'Debés confirmar tu edad' }),
