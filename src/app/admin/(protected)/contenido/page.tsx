@@ -1,5 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin';
-import { ContentSection } from './_components/content-section';
+import { ContentTabs } from './_components/content-tabs';
 import type { FieldDef } from './_components/content-section';
 
 export const metadata = { title: 'Contenido' };
@@ -638,17 +638,7 @@ export default async function ContentPage() {
         </p>
       </div>
 
-      <div className="space-y-6">
-        {SECTIONS.map((section) => (
-          <ContentSection
-            key={section.title}
-            title={section.title}
-            description={section.description}
-            fields={section.fields}
-            values={values}
-          />
-        ))}
-      </div>
+      <ContentTabs sections={SECTIONS} values={values} />
     </div>
   );
 }
