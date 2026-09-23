@@ -28,6 +28,7 @@ export default async function HomePage() {
 
   const heroVideoUrl = c(content, 'home.hero_video_url', PLACEHOLDER_VIDEO);
   const obraImageUrl = c(content, 'home.obra_image_url', PLACEHOLDER_IMAGE);
+  const quote2 = c(content, 'home.quote2_text', '');
 
   const hasHeroVideo = heroVideoUrl.startsWith('http');
   const hasObraImage = obraImageUrl.startsWith('http');
@@ -132,6 +133,61 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* Pilares */}
+      <section className="border-border border-t px-4 py-20">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-3 md:gap-8">
+            <div>
+              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+                {c(content, 'home.pilar1_stat', '2.000')}
+              </p>
+              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+                {c(content, 'home.pilar1_title', 'metros sobre el mar')}
+              </p>
+              <p className="text-muted mt-3 text-sm leading-relaxed">
+                {c(
+                  content,
+                  'home.pilar1_body',
+                  'Viñedos en la Precordillera de Calingasta, donde la altitud extrema concentra aromas, estructura y carácter único.',
+                )}
+              </p>
+            </div>
+
+            <div className="border-border md:border-x">
+              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+                {c(content, 'home.pilar2_stat', '4')}
+              </p>
+              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+                {c(content, 'home.pilar2_title', 'raíces musicales')}
+              </p>
+              <p className="text-muted mt-3 text-sm leading-relaxed">
+                {c(
+                  content,
+                  'home.pilar2_body',
+                  'Flamenco, árabe, folclore y tango fundidos en una obra que da nombre e identidad a cada etiqueta.',
+                )}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+                {c(content, 'home.pilar3_stat', '1')}
+              </p>
+              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+                {c(content, 'home.pilar3_title', 'región de autor')}
+              </p>
+              <p className="text-muted mt-3 text-sm leading-relaxed">
+                {c(
+                  content,
+                  'home.pilar3_body',
+                  'Calingasta es uno de los pocos valles de altura de Argentina con condiciones únicas para vinos de autor.',
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* La obra */}
       <section className="border-border border-t" aria-labelledby="obra-heading">
         <div
@@ -171,6 +227,55 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Reconocimientos */}
+      <section className="bg-primary px-4 py-20 text-center" aria-labelledby="prensa-heading">
+        <div className="mx-auto max-w-2xl">
+          <p
+            id="prensa-heading"
+            className="mb-12 text-xs font-semibold tracking-[0.3em] text-white/50 uppercase"
+          >
+            {c(content, 'home.prensa_label', 'Reconocimientos')}
+          </p>
+
+          <blockquote>
+            <p className="font-serif text-2xl leading-relaxed text-white/90 italic md:text-3xl">
+              &ldquo;
+              {c(
+                content,
+                'home.quote1_text',
+                'Una propuesta que une el arte y la tierra. Vinos únicos de altura con alma argentina.',
+              )}
+              &rdquo;
+            </p>
+            <footer className="mt-5 text-xs font-semibold tracking-[0.25em] text-white/50 uppercase">
+              — {c(content, 'home.quote1_source', 'Revista de Vinos Argentina')}
+            </footer>
+          </blockquote>
+
+          <div className="mx-auto my-10 w-12 border-t border-white/20" />
+
+          <div className="inline-block border border-white/30 px-7 py-3">
+            <p className="text-xs font-semibold tracking-[0.25em] text-white/90 uppercase">
+              {c(content, 'home.award_badge', award)}
+            </p>
+          </div>
+
+          {quote2 && (
+            <>
+              <div className="mx-auto my-10 w-12 border-t border-white/20" />
+              <blockquote>
+                <p className="font-serif text-xl leading-relaxed text-white/90 italic md:text-2xl">
+                  &ldquo;{quote2}&rdquo;
+                </p>
+                <footer className="mt-5 text-xs font-semibold tracking-[0.25em] text-white/50 uppercase">
+                  — {c(content, 'home.quote2_source', '')}
+                </footer>
+              </blockquote>
+            </>
+          )}
         </div>
       </section>
     </>
