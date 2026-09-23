@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient } from '@/lib/supabase/server';
 import { createMpPreference } from '@/lib/mercadopago';
 import { sendOrderReceivedEmail } from '@/lib/email';
 import type { ActiveShippingMethod } from './queries';
@@ -113,6 +114,13 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
 
   const accessToken = crypto.randomUUID().replace(/-/g, '');
 
+  // Attach user_id if user is authenticated (so Mi cuenta can find the order)
+  const serverClient = await createClient();
+  const {
+    data: { user },
+  } = await serverClient.auth.getUser();
+  const userId = user?.id ?? null;
+
   // Create order
   const { data: order, error: orderErr } = await db
     .from('orders')
@@ -131,6 +139,7 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       age_verified: data.ageVerified,
       access_token: accessToken,
       status: 'pending',
+      user_id: userId,
     })
     .select('id, order_number')
     .single();

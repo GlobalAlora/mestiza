@@ -8,16 +8,28 @@ import { NextResponse } from 'next/server';
  *
  * Note: In Next.js 16, this file replaces middleware.ts.
  */
+const CUSTOMER_AUTH_EXCLUDED = ['/mi-cuenta/login', '/mi-cuenta/registrarse'];
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-    const hasAuthCookie = request.cookies
-      .getAll()
-      .some((c) => c.name.startsWith('sb-') && c.name.includes('auth'));
+  const hasAuthCookie = () =>
+    request.cookies.getAll().some((c) => c.name.startsWith('sb-') && c.name.includes('auth'));
 
-    if (!hasAuthCookie) {
+  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+    if (!hasAuthCookie()) {
       const loginUrl = new URL('/admin/login', request.url);
+      loginUrl.searchParams.set('next', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  if (
+    pathname.startsWith('/mi-cuenta') &&
+    !CUSTOMER_AUTH_EXCLUDED.some((p) => pathname.startsWith(p))
+  ) {
+    if (!hasAuthCookie()) {
+      const loginUrl = new URL('/mi-cuenta/login', request.url);
       loginUrl.searchParams.set('next', pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -27,5 +39,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/mi-cuenta/:path*'],
 };
