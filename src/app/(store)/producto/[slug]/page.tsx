@@ -228,9 +228,14 @@ export default async function ProductPage({ params }: Props) {
             <h2 className="text-primary mb-8 text-center font-serif text-2xl">
               {c(content, 'producto.related_title', 'También te puede gustar')}
             </h2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-wrap justify-center gap-8">
               {related.map((p) => (
-                <ProductCard key={p.id} product={p} />
+                <div
+                  key={p.id}
+                  className="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1.35rem)]"
+                >
+                  <ProductCard product={p} />
+                </div>
               ))}
             </div>
           </div>

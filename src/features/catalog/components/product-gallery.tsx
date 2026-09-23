@@ -18,6 +18,10 @@ type Props = {
   productName: string;
 };
 
+const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965'];
+const placeholderUrl = (id: string) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&w=600`;
+
 export function ProductGallery({ images, productName }: Props) {
   const [active, setActive] = useState(0);
 
@@ -34,8 +38,35 @@ export function ProductGallery({ images, productName }: Props) {
 
   if (images.length === 0) {
     return (
-      <div className="bg-surface relative flex aspect-[3/4] items-center justify-center overflow-hidden">
-        <span className="text-primary/10 font-serif text-8xl select-none">SM</span>
+      <div className="flex flex-col gap-3">
+        <div className="bg-surface relative aspect-[3/4] w-full overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={placeholderUrl(PLACEHOLDER_WINES[active % PLACEHOLDER_WINES.length]!)}
+            alt={productName}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {PLACEHOLDER_WINES.map((id, i) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-label={`Ver imagen ${i + 1}`}
+              className={`border-border relative h-16 w-14 flex-shrink-0 overflow-hidden border transition-colors ${
+                i === active ? 'border-primary' : 'hover:border-primary/50'
+              }`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={placeholderUrl(id)}
+                alt={`${productName} ${i + 1}`}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
       </div>
     );
   }

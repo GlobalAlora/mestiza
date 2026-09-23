@@ -8,6 +8,13 @@ type Props = {
   product: ProductCardType;
 };
 
+const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965', '14799841', '11675004'];
+function placeholderWineUrl(seed: string) {
+  const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const id = PLACEHOLDER_WINES[h % PLACEHOLDER_WINES.length]!;
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&w=600`;
+}
+
 export function ProductCard({ product }: Props) {
   const firstImage = product.product_images[0];
   const minPrice = getMinPrice(product.product_variants);
@@ -33,9 +40,12 @@ export function ProductCard({ product }: Props) {
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
           ) : (
-            <div className="flex h-full w-full items-end justify-center pb-8">
-              <span className="text-primary/20 font-serif text-5xl select-none">SM</span>
-            </div>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={placeholderWineUrl(product.id)}
+              alt={product.name}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
           )}
 
           {/* Hover overlay */}
