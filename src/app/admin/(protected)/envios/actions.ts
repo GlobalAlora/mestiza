@@ -1,10 +1,12 @@
 'use server';
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminSession } from '@/lib/supabase/require-admin';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createShippingMethod(formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
   const name = formData.get('name') as string;
   const type = formData.get('type') as 'delivery' | 'pickup' | 'theater_pickup';
@@ -23,6 +25,7 @@ export async function createShippingMethod(formData: FormData) {
 }
 
 export async function updateShippingMethod(id: string, formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
   const name = formData.get('name') as string;
   const type = formData.get('type') as 'delivery' | 'pickup' | 'theater_pickup';
@@ -42,12 +45,14 @@ export async function updateShippingMethod(id: string, formData: FormData) {
 }
 
 export async function deleteShippingMethod(id: string) {
+  await requireAdminSession();
   const db = createAdminClient();
   await db.from('shipping_methods').delete().eq('id', id);
   revalidatePath('/admin/envios');
 }
 
 export async function toggleShippingActive(id: string, is_active: boolean) {
+  await requireAdminSession();
   const db = createAdminClient();
   await db.from('shipping_methods').update({ is_active: !is_active }).eq('id', id);
   revalidatePath('/admin/envios');

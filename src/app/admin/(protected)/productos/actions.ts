@@ -1,9 +1,18 @@
 'use server';
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminSession } from '@/lib/supabase/require-admin';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+
+const ALLOWED_IMAGE_TYPES: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+};
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 type VariantInput = {
   id?: string;
@@ -17,6 +26,7 @@ type VariantInput = {
 };
 
 export async function createProduct(formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
 
   const name = formData.get('name') as string;
@@ -56,6 +66,7 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function updateProduct(id: string, formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
 
   const name = formData.get('name') as string;
@@ -96,6 +107,7 @@ export async function updateProduct(id: string, formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
+  await requireAdminSession();
   const db = createAdminClient();
 
   // Fetch image paths to delete from storage
@@ -116,11 +128,16 @@ export async function deleteProduct(id: string) {
 }
 
 export async function uploadProductImage(productId: string, formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
   const file = formData.get('image') as File;
   if (!file || file.size === 0) return;
 
-  const ext = file.name.split('.').pop() ?? 'jpg';
+  if (!ALLOWED_IMAGE_TYPES[file.type])
+    throw new Error('Tipo de archivo no permitido. Usá JPG, PNG o WebP.');
+  if (file.size > MAX_IMAGE_SIZE) throw new Error('El archivo supera el límite de 5 MB.');
+
+  const ext = ALLOWED_IMAGE_TYPES[file.type];
   const path = `${productId}/${Date.now()}.${ext}`;
   const bytes = await file.arrayBuffer();
 
@@ -150,6 +167,7 @@ export async function uploadProductImage(productId: string, formData: FormData) 
 }
 
 export async function deleteProductImage(imageId: string, storagePath: string, productId: string) {
+  await requireAdminSession();
   const db = createAdminClient();
   await db.storage.from('products').remove([storagePath]);
   await db.from('product_images').delete().eq('id', imageId);

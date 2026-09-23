@@ -73,6 +73,27 @@ export default async function OrdersPage({
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-ink text-2xl font-semibold">Pedidos</h1>
+        <a
+          href={`/admin/api/export/pedidos${status ? `?status=${status}` : ''}`}
+          className="border-border text-ink inline-flex items-center gap-2 rounded border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-zinc-50"
+        >
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Exportar CSV
+        </a>
       </div>
 
       {/* Filtros */}

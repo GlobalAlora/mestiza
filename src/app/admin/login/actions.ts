@@ -6,7 +6,8 @@ import { redirect } from 'next/navigation';
 export async function loginAction(formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  const next = (formData.get('next') as string) || '/admin';
+  const rawNext = formData.get('next') as string;
+  const next = rawNext?.startsWith('/') ? rawNext : '/admin';
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -15,7 +16,7 @@ export async function loginAction(formData: FormData) {
     redirect(`/admin/login?error=${encodeURIComponent('Credenciales inválidas')}`);
   }
 
-  redirect((next || '/admin') as '/admin');
+  redirect(next as '/admin');
 }
 
 export async function logoutAction() {

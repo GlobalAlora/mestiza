@@ -1,6 +1,8 @@
 'use server';
 
 import { z } from 'zod';
+import { sendEmail } from '@/lib/email';
+import { siteConfig } from '@/config/site';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Ingresá tu nombre').max(100),
@@ -36,11 +38,18 @@ export async function submitContact(
     };
   }
 
-  // TODO Fase 4: enviar email via Resend
-  // const resend = new Resend(env.RESEND_API_KEY);
-  // await resend.emails.send({ from: '...', to: env.CONTACT_EMAIL, ... });
-
-  console.log('[contact]', parsed.data);
+  sendEmail({
+    to: siteConfig.contact.email,
+    subject: `Nuevo mensaje de contacto de ${parsed.data.name}`,
+    html: `
+      <p><strong>Nombre:</strong> ${parsed.data.name}</p>
+      <p><strong>Email:</strong> <a href="mailto:${parsed.data.email}">${parsed.data.email}</a></p>
+      <hr />
+      <p>${parsed.data.message.replace(/\n/g, '<br>')}</p>
+      <hr />
+      <p style="color:#888;font-size:12px">Enviado desde el formulario de contacto de Soy Mestiza</p>
+    `,
+  }).catch(() => {});
 
   return { status: 'success' };
 }

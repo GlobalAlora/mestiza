@@ -1,11 +1,13 @@
 'use server';
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminSession } from '@/lib/supabase/require-admin';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createCategory(formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
   const name = formData.get('name') as string;
   const slug = (formData.get('slug') as string) || slugify(name);
@@ -21,6 +23,7 @@ export async function createCategory(formData: FormData) {
 }
 
 export async function updateCategory(id: string, formData: FormData) {
+  await requireAdminSession();
   const db = createAdminClient();
   const name = formData.get('name') as string;
   const slug = (formData.get('slug') as string) || slugify(name);
@@ -39,6 +42,7 @@ export async function updateCategory(id: string, formData: FormData) {
 }
 
 export async function deleteCategory(id: string) {
+  await requireAdminSession();
   const db = createAdminClient();
   await db.from('categories').delete().eq('id', id);
   revalidatePath('/admin/categorias');

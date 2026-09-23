@@ -1,6 +1,7 @@
 'use server';
 
 import { createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminSession } from '@/lib/supabase/require-admin';
 import type { Enums } from '@/lib/supabase/types';
 import { revalidatePath } from 'next/cache';
 import { sendOrderStatusEmail } from '@/lib/email';
@@ -10,6 +11,7 @@ export async function updateOrderStatus(
   status: Enums<'order_status'>,
   notes?: string,
 ) {
+  await requireAdminSession();
   const db = createAdminClient();
 
   await db.from('orders').update({ status }).eq('id', orderId);

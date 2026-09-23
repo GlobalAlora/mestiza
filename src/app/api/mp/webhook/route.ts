@@ -45,8 +45,8 @@ function verifyMpSignature(req: NextRequest, rawBody: string): boolean {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const rawBody = await req.text();
 
-  // Skip signature check in development without secret configured
-  if (env.MERCADOPAGO_WEBHOOK_SECRET) {
+  const isProduction = env.NODE_ENV === 'production' || env.VERCEL_ENV === 'production';
+  if (env.MERCADOPAGO_WEBHOOK_SECRET || isProduction) {
     if (!verifyMpSignature(req, rawBody)) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
