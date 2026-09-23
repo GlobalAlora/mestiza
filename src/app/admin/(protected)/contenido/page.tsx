@@ -52,6 +52,12 @@ const SECTIONS: { title: string; description: string; fields: FieldDef[] }[] = [
     description: 'Textos de la página de inicio.',
     fields: [
       {
+        key: 'home.hero_video_url',
+        label: 'Video de fondo hero (URL)',
+        type: 'input',
+        placeholder: 'https://videos.pexels.com/… — dejar vacío para ocultar',
+      },
+      {
         key: 'home.hero_tagline',
         label: 'Tagline hero',
         type: 'input',
@@ -94,6 +100,12 @@ const SECTIONS: { title: string; description: string; fields: FieldDef[] }[] = [
         label: 'Texto link "La obra"',
         type: 'input',
         placeholder: 'Conocé la historia →',
+      },
+      {
+        key: 'home.obra_image_url',
+        label: 'Imagen editorial "La obra" (URL)',
+        type: 'input',
+        placeholder: 'https://images.pexels.com/… — dejar vacío para ocultar',
       },
     ],
   },
