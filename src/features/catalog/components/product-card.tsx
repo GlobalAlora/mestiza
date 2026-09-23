@@ -8,7 +8,7 @@ type Props = {
   product: ProductCardType;
 };
 
-const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965', '14799841', '11675004'];
+const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965', '18189971', '24828490'];
 function placeholderWineUrl(seed: string) {
   const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0);
   const id = PLACEHOLDER_WINES[h % PLACEHOLDER_WINES.length]!;
