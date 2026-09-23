@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { Fancybox } from '@fancyapps/ui';
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import { getStorageUrl } from '@/lib/utils';
 
 type ProductImage = {
@@ -19,6 +21,17 @@ type Props = {
 export function ProductGallery({ images, productName }: Props) {
   const [active, setActive] = useState(0);
 
+  const openLightbox = (startIndex: number) => {
+    Fancybox.show(
+      images.map((img) => ({
+        src: getStorageUrl('products', img.storage_path),
+        thumb: getStorageUrl('products', img.storage_path),
+        caption: img.alt_text ?? productName,
+      })),
+      { startIndex },
+    );
+  };
+
   if (images.length === 0) {
     return (
       <div className="bg-surface relative flex aspect-[3/4] items-center justify-center overflow-hidden">
@@ -28,13 +41,17 @@ export function ProductGallery({ images, productName }: Props) {
   }
 
   const idx = active < images.length ? active : 0;
-  // images.length > 0 is guaranteed by the early return above
-
   const current = images[idx]!;
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="bg-surface relative aspect-[3/4] overflow-hidden">
+      {/* Imagen principal — click abre lightbox */}
+      <button
+        type="button"
+        onClick={() => openLightbox(idx)}
+        className="bg-surface relative block aspect-[3/4] w-full cursor-zoom-in overflow-hidden"
+        aria-label="Ampliar imagen"
+      >
         <Image
           key={current.id}
           src={getStorageUrl('products', current.storage_path)}
@@ -42,10 +59,11 @@ export function ProductGallery({ images, productName }: Props) {
           fill
           sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover transition-opacity duration-200"
-          priority={active === 0}
+          priority={idx === 0}
         />
-      </div>
+      </button>
 
+      {/* Thumbnails */}
       {images.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-1">
           {images.map((img, i) => (
