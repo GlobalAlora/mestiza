@@ -8,12 +8,8 @@ type Props = {
   product: ProductCardType;
 };
 
-const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965', '18189971', '24828490'];
-function placeholderWineUrl(seed: string) {
-  const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0);
-  const id = PLACEHOLDER_WINES[h % PLACEHOLDER_WINES.length]!;
-  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&w=600`;
-}
+const PLACEHOLDER_WINE_URL =
+  'https://images.pexels.com/photos/9145965/pexels-photo-9145965.jpeg?auto=compress&w=600';
 
 export function ProductCard({ product }: Props) {
   const firstImage = product.product_images[0];
@@ -42,7 +38,7 @@ export function ProductCard({ product }: Props) {
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={placeholderWineUrl(product.id)}
+              src={PLACEHOLDER_WINE_URL}
               alt={product.name}
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />

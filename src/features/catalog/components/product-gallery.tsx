@@ -18,9 +18,13 @@ type Props = {
   productName: string;
 };
 
-const PLACEHOLDER_WINES = ['20579556', '26834216', '9145965'];
-const placeholderUrl = (id: string) =>
-  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&w=600`;
+const PLACEHOLDER_WINE_URL =
+  'https://images.pexels.com/photos/9145965/pexels-photo-9145965.jpeg?auto=compress&w=600';
+const PLACEHOLDER_GALLERY = [
+  PLACEHOLDER_WINE_URL,
+  'https://images.pexels.com/photos/20579556/pexels-photo-20579556.jpeg?auto=compress&w=600',
+  'https://images.pexels.com/photos/26834216/pexels-photo-26834216.jpeg?auto=compress&w=600',
+];
 
 export function ProductGallery({ images, productName }: Props) {
   const [active, setActive] = useState(0);
@@ -42,15 +46,15 @@ export function ProductGallery({ images, productName }: Props) {
         <div className="bg-surface relative aspect-[3/4] w-full overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={placeholderUrl(PLACEHOLDER_WINES[active % PLACEHOLDER_WINES.length]!)}
+            src={PLACEHOLDER_GALLERY[active % PLACEHOLDER_GALLERY.length]}
             alt={productName}
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto pb-1">
-          {PLACEHOLDER_WINES.map((id, i) => (
+          {PLACEHOLDER_GALLERY.map((url, i) => (
             <button
-              key={id}
+              key={url}
               type="button"
               onClick={() => setActive(i)}
               aria-label={`Ver imagen ${i + 1}`}
@@ -60,7 +64,7 @@ export function ProductGallery({ images, productName }: Props) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={placeholderUrl(id)}
+                src={url}
                 alt={`${productName} ${i + 1}`}
                 className="absolute inset-0 h-full w-full object-cover"
               />
