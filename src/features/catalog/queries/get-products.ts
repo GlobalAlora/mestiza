@@ -28,6 +28,37 @@ export async function getPublishedProducts(categoryId?: string): Promise<Product
   return (data ?? []).map(normalizeProduct);
 }
 
+export async function getRelatedProducts(
+  categoryId: string | null,
+  excludeId: string,
+  limit = 3,
+): Promise<ProductCard[]> {
+  const supabase = await createClient();
+
+  // Prefer same category
+  if (categoryId) {
+    const { data } = await supabase
+      .from('products')
+      .select(PRODUCT_SELECT)
+      .eq('status', 'published')
+      .eq('category_id', categoryId)
+      .neq('id', excludeId)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if ((data?.length ?? 0) > 0) return (data ?? []).map(normalizeProduct);
+  }
+
+  // Fallback: any published products except current
+  const { data } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT)
+    .eq('status', 'published')
+    .neq('id', excludeId)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+  return (data ?? []).map(normalizeProduct);
+}
+
 export async function getFeaturedProducts(limit = 3): Promise<ProductCard[]> {
   const supabase = await createClient();
   const { data, error } = await supabase

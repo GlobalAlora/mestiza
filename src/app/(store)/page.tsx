@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { buildMetadata, websiteJsonLd, organizationJsonLd } from '@/lib/seo';
 import { getFeaturedProducts } from '@/features/catalog/queries/get-products';
 import { ProductCard } from '@/features/catalog/components/product-card';
+import { getContentMap, c } from '@/lib/content';
 
 export const revalidate = 3600;
 
@@ -15,7 +16,9 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default async function HomePage() {
-  const products = await getFeaturedProducts(3);
+  const [products, content] = await Promise.all([getFeaturedProducts(3), getContentMap()]);
+  const award = c(content, 'general.award', siteConfig.brand.award);
+  const obraBodyDefault = `Ganadora del ${award}. Flamenco, música árabe, folclore y tango fundidos en una propuesta única que da vida a esta colección de vinos de altura de Calingasta, San Juan.`;
 
   return (
     <>
@@ -36,7 +39,7 @@ export default async function HomePage() {
         aria-labelledby="hero-heading"
       >
         <p className="text-muted mb-5 text-xs font-semibold tracking-[0.3em] uppercase">
-          {siteConfig.brand.origin}
+          {c(content, 'general.origin', siteConfig.brand.origin)}
         </p>
         <h1
           id="hero-heading"
@@ -44,12 +47,14 @@ export default async function HomePage() {
         >
           {siteConfig.name}
         </h1>
-        <p className="text-muted mt-5 max-w-md text-base md:text-lg">{siteConfig.tagline}</p>
+        <p className="text-muted mt-5 max-w-md text-base md:text-lg">
+          {c(content, 'home.hero_tagline', siteConfig.tagline)}
+        </p>
         <Link
           href="/tienda"
           className="bg-primary text-surface mt-10 inline-block px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase transition-opacity hover:opacity-85"
         >
-          Explorar vinos
+          {c(content, 'home.hero_cta', 'Explorar vinos')}
         </Link>
       </section>
 
@@ -59,10 +64,10 @@ export default async function HomePage() {
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
               <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
-                Nuestros vinos
+                {c(content, 'home.featured_label', 'Nuestros vinos')}
               </p>
               <h2 id="featured-heading" className="text-primary font-serif text-3xl md:text-4xl">
-                Colección
+                {c(content, 'home.featured_title', 'Colección')}
               </h2>
             </div>
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -92,19 +97,16 @@ export default async function HomePage() {
             La obra
           </p>
           <h2 id="obra-heading" className="text-primary font-serif text-3xl md:text-4xl">
-            Como el vino, Soy Mestiza
+            {c(content, 'home.obra_title', 'Como el vino, Soy Mestiza')}
           </h2>
           <p className="text-muted mt-5 text-base leading-relaxed">
-            Ganadora del{' '}
-            <strong className="text-ink font-semibold">{siteConfig.brand.award}</strong>. Flamenco,
-            música árabe, folclore y tango fundidos en una propuesta única que da vida a esta
-            colección de vinos de altura de Calingasta, San Juan.
+            {c(content, 'home.obra_body', obraBodyDefault)}
           </p>
           <Link
             href="/historia"
             className="text-primary mt-8 inline-block text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
           >
-            Conocé la historia →
+            {c(content, 'home.obra_cta', 'Conocé la historia →')}
           </Link>
         </div>
       </section>

@@ -13,6 +13,8 @@ import {
 import { getMinPrice, isInStock } from '@/features/catalog/queries/get-products';
 import { VariantSelector } from '@/features/catalog/components/variant-selector';
 import { ProductGallery } from '@/features/catalog/components/product-gallery';
+import { ProductCard } from '@/features/catalog/components/product-card';
+import { getRelatedProducts } from '@/features/catalog/queries/get-products';
 
 export const revalidate = 3600;
 
@@ -46,6 +48,8 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProductBySlug(slug);
 
   if (!product) notFound();
+
+  const related = await getRelatedProducts(product.category_id, product.id, 3);
 
   const firstImage = product.product_images[0];
   const imageUrl = firstImage ? getStorageUrl('products', firstImage.storage_path) : null;
@@ -207,6 +211,20 @@ export default async function ProductPage({ params }: Props) {
             <p className="text-muted text-xs">{siteConfig.legal.alcoholWarning}</p>
           </div>
         </div>
+
+        {/* Productos relacionados */}
+        {related.length > 0 && (
+          <div className="border-border mt-16 border-t pt-16">
+            <h2 className="text-primary mb-8 text-center font-serif text-2xl">
+              También te puede gustar
+            </h2>
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((p) => (
+                <ProductCard key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
