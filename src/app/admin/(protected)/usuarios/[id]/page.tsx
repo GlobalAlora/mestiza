@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createAdminClient } from '@/lib/supabase/admin';
-import { updateUserAction, deleteUserAction } from '../actions';
+import { updateUserAction } from '../actions';
+import { DeleteUserButton } from './_components/delete-user-button';
 
 export const metadata = { title: 'Editar usuario' };
 
@@ -141,20 +142,7 @@ export default async function EditarUsuarioPage({ params, searchParams }: Props)
         <p className="mt-1 text-xs text-red-600">
           Eliminar el usuario borra su cuenta y todos sus datos de acceso permanentemente.
         </p>
-        <form action={deleteUserAction} className="mt-3">
-          <input type="hidden" name="id" value={id} />
-          <button
-            type="submit"
-            className="rounded border border-red-300 bg-white px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-100"
-            onClick={(e) => {
-              if (!confirm('¿Eliminar este usuario? Esta acción no se puede deshacer.')) {
-                e.preventDefault();
-              }
-            }}
-          >
-            Eliminar usuario
-          </button>
-        </form>
+        <DeleteUserButton id={id} />
       </div>
     </div>
   );
