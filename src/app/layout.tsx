@@ -1,11 +1,10 @@
-import type { Metadata, Viewport } from 'next';
-import { Inter, Cormorant_Garamond } from 'next/font/google';
+﻿import type { Metadata, Viewport } from 'next';
+import { Jost, Cormorant_Garamond } from 'next/font/google';
 import { AgeGate } from '@/components/layout/age-gate';
 import { siteConfig } from '@/config/site';
 import '@/styles/globals.css';
 
-// Placeholder fonts — replace with final brand typography in Phase 3
-const fontSans = Inter({
+const fontSans = Jost({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',

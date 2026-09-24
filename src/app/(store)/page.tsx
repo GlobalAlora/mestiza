@@ -64,36 +64,36 @@ export default async function HomePage() {
               poster={PLACEHOLDER_IMAGE}
               aria-hidden="true"
             />
-            <div className="absolute inset-0 bg-black/55" />
+            <div className="absolute inset-0 bg-black/50" />
           </>
         )}
 
         <div className="relative z-10">
           <p
-            className={`mb-5 text-xs font-semibold tracking-[0.3em] uppercase ${
-              hasHeroVideo ? 'text-white/70' : 'text-muted'
+            className={`mb-5 font-serif text-sm italic ${
+              hasHeroVideo ? 'text-white/55' : 'text-muted'
             }`}
           >
             {c(content, 'general.origin', siteConfig.brand.origin)}
           </p>
           <h1
             id="hero-heading"
-            className={`font-serif text-5xl leading-tight md:text-7xl ${
+            className={`font-serif text-[3.25rem] leading-[1.02] tracking-[-0.02em] md:text-[5.5rem] lg:text-[7.5rem] ${
               hasHeroVideo ? 'text-white' : 'text-primary'
             }`}
           >
             {siteConfig.name}
           </h1>
           <p
-            className={`mt-5 max-w-md text-base md:text-lg ${
-              hasHeroVideo ? 'text-white/80' : 'text-muted'
+            className={`mt-6 max-w-sm text-lg leading-relaxed font-light tracking-wide md:text-xl ${
+              hasHeroVideo ? 'text-white/70' : 'text-muted'
             }`}
           >
             {c(content, 'home.hero_tagline', siteConfig.tagline)}
           </p>
           <Link
             href="/tienda"
-            className={`mt-10 inline-block px-8 py-3 text-xs font-semibold tracking-[0.2em] uppercase transition-opacity hover:opacity-85 ${
+            className={`mt-10 inline-block px-8 py-3 text-xs font-semibold tracking-[0.12em] uppercase transition-opacity hover:opacity-85 ${
               hasHeroVideo
                 ? 'border border-white/80 text-white hover:bg-white/10'
                 : 'bg-primary text-surface'
@@ -109,7 +109,7 @@ export default async function HomePage() {
         <section className="border-border border-t px-4 py-20" aria-labelledby="featured-heading">
           <div className="mx-auto max-w-6xl">
             <div className="mb-12 text-center">
-              <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
+              <p className="text-muted mb-3 font-serif text-sm italic">
                 {c(content, 'home.featured_label', 'Nuestros vinos')}
               </p>
               <h2 id="featured-heading" className="text-primary font-serif text-3xl md:text-4xl">
@@ -143,10 +143,10 @@ export default async function HomePage() {
         <div className="mx-auto max-w-5xl">
           <div className="grid grid-cols-1 gap-12 text-center md:grid-cols-3 md:gap-8">
             <div>
-              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+              <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar1_stat', '2.000')}
               </p>
-              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+              <p className="text-muted mt-3 font-serif text-sm italic">
                 {c(content, 'home.pilar1_title', 'metros sobre el mar')}
               </p>
               <p className="text-muted mt-3 text-sm leading-relaxed">
@@ -159,10 +159,10 @@ export default async function HomePage() {
             </div>
 
             <div className="border-border md:border-x">
-              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+              <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar2_stat', '4')}
               </p>
-              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+              <p className="text-muted mt-3 font-serif text-sm italic">
                 {c(content, 'home.pilar2_title', 'raíces musicales')}
               </p>
               <p className="text-muted mt-3 text-sm leading-relaxed">
@@ -175,10 +175,10 @@ export default async function HomePage() {
             </div>
 
             <div>
-              <p className="text-primary font-serif text-6xl leading-none md:text-7xl">
+              <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar3_stat', '1')}
               </p>
-              <p className="text-ink mt-4 text-xs font-semibold tracking-[0.2em] uppercase">
+              <p className="text-muted mt-3 font-serif text-sm italic">
                 {c(content, 'home.pilar3_title', 'región de autor')}
               </p>
               <p className="text-muted mt-3 text-sm leading-relaxed">
@@ -215,7 +215,7 @@ export default async function HomePage() {
             }`}
           >
             <div className={`${hasObraImage ? 'max-w-lg' : 'mx-auto max-w-prose text-center'}`}>
-              <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
+              <p className="text-muted mb-3 font-serif text-sm italic">
                 {c(content, 'home.obra_label', 'La obra')}
               </p>
               <h2 id="obra-heading" className="text-primary font-serif text-3xl md:text-4xl">
@@ -228,7 +228,7 @@ export default async function HomePage() {
                 href="/historia"
                 className="text-primary mt-8 inline-block text-sm font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
               >
-                {c(content, 'home.obra_cta', 'Conocé la historia →')}
+                {c(content, 'home.obra_cta', 'Conocé la historia')}
               </Link>
             </div>
           </div>
@@ -238,12 +238,16 @@ export default async function HomePage() {
       {/* Reconocimientos */}
       <section className="bg-primary px-4 py-20 text-center" aria-labelledby="prensa-heading">
         <div className="mx-auto max-w-2xl">
-          <p
-            id="prensa-heading"
-            className="mb-12 text-xs font-semibold tracking-[0.3em] text-white/50 uppercase"
-          >
+          <p id="prensa-heading" className="mb-12 font-serif text-sm text-white/50 italic">
             {c(content, 'home.prensa_label', 'Reconocimientos')}
           </p>
+
+          <span
+            className="-mb-6 block font-serif text-8xl leading-none text-white/[0.07] select-none"
+            aria-hidden="true"
+          >
+            &ldquo;
+          </span>
 
           <blockquote>
             <p className="font-serif text-2xl leading-relaxed text-white/90 italic md:text-3xl">
@@ -255,7 +259,7 @@ export default async function HomePage() {
               )}
               &rdquo;
             </p>
-            <footer className="mt-5 text-xs font-semibold tracking-[0.25em] text-white/50 uppercase">
+            <footer className="mt-5 font-serif text-sm text-white/50 italic">
               — {c(content, 'home.quote1_source', 'Revista de Vinos Argentina')}
             </footer>
           </blockquote>
@@ -263,7 +267,7 @@ export default async function HomePage() {
           <div className="mx-auto my-10 w-12 border-t border-white/20" />
 
           <div className="inline-block border border-white/30 px-7 py-3">
-            <p className="text-xs font-semibold tracking-[0.25em] text-white/90 uppercase">
+            <p className="font-serif text-sm text-white/85 italic">
               {c(content, 'home.award_badge', award)}
             </p>
           </div>
@@ -275,7 +279,7 @@ export default async function HomePage() {
                 <p className="font-serif text-xl leading-relaxed text-white/90 italic md:text-2xl">
                   &ldquo;{quote2}&rdquo;
                 </p>
-                <footer className="mt-5 text-xs font-semibold tracking-[0.25em] text-white/50 uppercase">
+                <footer className="mt-5 font-serif text-sm text-white/50 italic">
                   — {c(content, 'home.quote2_source', '')}
                 </footer>
               </blockquote>
