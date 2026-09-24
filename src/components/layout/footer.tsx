@@ -14,9 +14,7 @@ export function Footer() {
           </div>
           {footerNav.map((section) => (
             <div key={section.label}>
-              <p className="text-muted mb-3 text-xs font-semibold tracking-[0.2em] uppercase">
-                {section.label}
-              </p>
+              <p className="text-muted mb-3 font-serif text-sm italic">{section.label}</p>
               <ul className="space-y-2" role="list">
                 {section.links.map((link) => (
                   <li key={link.href}>

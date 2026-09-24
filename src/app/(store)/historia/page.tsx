@@ -29,7 +29,7 @@ export default async function HistoriaPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20">
       <header className="mb-14 text-center">
-        <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
+        <p className="text-muted mb-3 font-serif text-sm italic">
           {c(content, 'historia.section_label', 'La obra')}
         </p>
         <h1 className="text-primary font-serif text-4xl md:text-5xl">
@@ -52,8 +52,8 @@ export default async function HistoriaPage() {
 
         <p>{c(content, 'historia.body2', body2Default)}</p>
 
-        <div className="bg-primary/5 border-primary/15 my-8 rounded-sm border p-6">
-          <p className="text-muted mb-2 text-xs font-semibold tracking-[0.2em] uppercase">
+        <div className="bg-primary/5 border-primary/15 my-8 border p-6">
+          <p className="text-muted mb-2 font-serif text-sm italic">
             {c(content, 'historia.region_label', 'La región')}
           </p>
           <p className="text-ink text-sm leading-relaxed">

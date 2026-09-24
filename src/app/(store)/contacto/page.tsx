@@ -19,9 +19,7 @@ export default async function ContactoPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-20">
       <header className="mb-12 text-center">
-        <p className="text-muted mb-3 text-xs font-semibold tracking-[0.3em] uppercase">
-          {siteConfig.name}
-        </p>
+        <p className="text-muted mb-3 font-serif text-sm italic">{siteConfig.name}</p>
         <h1 className="text-primary font-serif text-4xl">
           {c(content, 'contacto.title', 'Contacto')}
         </h1>

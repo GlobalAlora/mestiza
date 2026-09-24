@@ -130,7 +130,7 @@ export default async function ProductPage({ params }: Props) {
             {/* Nombre y origen */}
             <div>
               {product.categories && (
-                <p className="text-muted mb-2 text-xs font-semibold tracking-[0.2em] uppercase">
+                <p className="text-muted mb-2 font-serif text-sm italic">
                   {product.categories.name}
                 </p>
               )}
@@ -154,7 +154,7 @@ export default async function ProductPage({ params }: Props) {
               <dl className="border-border grid grid-cols-2 gap-x-8 gap-y-4 border-t pt-8 text-sm">
                 {attrs['varietal'] && (
                   <div>
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.varietal}
                     </dt>
                     <dd className="text-ink mt-0.5">{String(attrs['varietal'])}</dd>
@@ -162,7 +162,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['vintage_year'] && (
                   <div>
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.vintage}
                     </dt>
                     <dd className="text-ink mt-0.5">{String(attrs['vintage_year'])}</dd>
@@ -170,7 +170,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['region'] && (
                   <div>
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.region}
                     </dt>
                     <dd className="text-ink mt-0.5">{String(attrs['region'])}</dd>
@@ -178,7 +178,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['altitude_masl'] && (
                   <div>
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.altitude}
                     </dt>
                     <dd className="text-ink mt-0.5">
@@ -189,7 +189,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['alcohol_pct'] && (
                   <div>
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.alcohol}
                     </dt>
                     <dd className="text-ink mt-0.5">
@@ -200,7 +200,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['tasting_notes'] && (
                   <div className="col-span-2">
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.tastingNotes}
                     </dt>
                     <dd className="text-ink mt-0.5">{String(attrs['tasting_notes'])}</dd>
@@ -208,7 +208,7 @@ export default async function ProductPage({ params }: Props) {
                 )}
                 {attrs['pairing'] && (
                   <div className="col-span-2">
-                    <dt className="text-muted text-xs font-semibold tracking-[0.15em] uppercase">
+                    <dt className="text-muted text-xs font-medium tracking-[0.08em] uppercase">
                       {t.pairing}
                     </dt>
                     <dd className="text-ink mt-0.5">{String(attrs['pairing'])}</dd>

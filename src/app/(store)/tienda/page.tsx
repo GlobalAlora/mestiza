@@ -25,9 +25,7 @@ export default async function TiendaPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
       <header className="mb-12">
-        <p className="text-muted mb-2 text-xs font-semibold tracking-[0.3em] uppercase">
-          {siteConfig.name}
-        </p>
+        <p className="text-muted mb-2 font-serif text-sm italic">{siteConfig.name}</p>
         <h1 className="text-primary font-serif text-4xl md:text-5xl">
           {c(content, 'tienda.title', 'Tienda')}
         </h1>
