@@ -1,36 +1,32 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit } from '@/lib/ratelimit';
 import { redirect } from 'next/navigation';
-import { adminToken, ADMIN_COOKIE } from '../_lib';
 
-export async function loginAction(_prev: unknown, formData: FormData) {
+export async function loginAction(formData: FormData) {
+  const email = formData.get('email') as string;
   const password = formData.get('password') as string;
+  const rawNext = formData.get('next') as string;
+  const next = rawNext?.startsWith('/') ? rawNext : '/admin';
 
-  if (!password || !process.env.ADMIN_PASSWORD) {
-    return { error: 'Contraseña incorrecta.' };
+  const rl = await checkRateLimit('login', email);
+  if (!rl.ok) {
+    redirect(`/admin/login?error=${encodeURIComponent(rl.error)}`);
   }
 
-  // Constant-time comparison to prevent timing attacks
-  const expected = process.env.ADMIN_PASSWORD;
-  if (password.length !== expected.length || password !== expected) {
-    return { error: 'Contraseña incorrecta.' };
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    redirect(`/admin/login?error=${encodeURIComponent('Credenciales inválidas')}`);
   }
 
-  const cookieStore = await cookies();
-  cookieStore.set(ADMIN_COOKIE, adminToken(), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 8, // 8 horas
-    path: '/',
-  });
-
-  redirect('/admin/nav');
+  redirect(next as '/admin');
 }
 
 export async function logoutAction() {
-  const cookieStore = await cookies();
-  cookieStore.delete(ADMIN_COOKIE);
+  const supabase = await createClient();
+  await supabase.auth.signOut();
   redirect('/admin/login');
 }
