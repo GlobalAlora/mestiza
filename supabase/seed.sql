@@ -79,13 +79,7 @@ insert into public.shipping_methods (id, name, type, is_active, zones, position)
     'Envío a domicilio — Buenos Aires',
     'delivery',
     true,
-    '[{
-      "type": "provinces",
-      "values": ["Buenos Aires", "Ciudad Autónoma de Buenos Aires"],
-      "base_rate_cents": 350000,
-      "per_kg_cents": 0,
-      "free_from_cents": 1500000
-    }]'::jsonb,
+    '[{"name": "AMBA / Buenos Aires", "price_cents": 350000}]'::jsonb,
     1
   ),
   (
@@ -93,17 +87,7 @@ insert into public.shipping_methods (id, name, type, is_active, zones, position)
     'Envío a domicilio — Interior',
     'delivery',
     true,
-    '[{
-      "type": "provinces",
-      "values": ["Córdoba", "Santa Fe", "Mendoza", "Tucumán", "Rosario", "Entre Ríos",
-                 "Neuquén", "Río Negro", "Chubut", "Santa Cruz", "Tierra del Fuego",
-                 "Salta", "Jujuy", "Catamarca", "La Rioja", "Santiago del Estero",
-                 "Chaco", "Formosa", "Misiones", "Corrientes", "San Luis",
-                 "La Pampa", "San Juan"],
-      "base_rate_cents": 600000,
-      "per_kg_cents": 0,
-      "free_from_cents": 2500000
-    }]'::jsonb,
+    '[{"name": "Interior del país", "price_cents": 600000}]'::jsonb,
     2
   ),
   (
