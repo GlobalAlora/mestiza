@@ -28,6 +28,60 @@ export async function getPublishedProducts(categoryId?: string): Promise<Product
   return (data ?? []).map(normalizeProduct);
 }
 
+export async function getPublishedProductsPage(opts: {
+  categoryId?: string;
+  page: number;
+  pageSize: number;
+}): Promise<{ products: ProductCard[]; total: number }> {
+  const supabase = await createClient();
+  const { categoryId, page, pageSize } = opts;
+
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  let query = supabase
+    .from('products')
+    .select(PRODUCT_SELECT, { count: 'exact' })
+    .eq('status', 'published')
+    .order('created_at', { ascending: false })
+    .range(from, to);
+
+  if (categoryId) {
+    query = query.eq('category_id', categoryId);
+  }
+
+  const { data, error, count } = await query;
+  if (error) throw new Error(`getPublishedProductsPage: ${error.message}`);
+
+  return {
+    products: (data ?? []).map(normalizeProduct),
+    total: count ?? 0,
+  };
+}
+
+export async function getCatalogCounts(): Promise<{
+  total: number;
+  byCategory: Record<string, number>;
+}> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('products')
+    .select('category_id')
+    .eq('status', 'published');
+
+  if (error) throw new Error(`getCatalogCounts: ${error.message}`);
+
+  const rows = data ?? [];
+  const byCategory: Record<string, number> = {};
+  for (const row of rows) {
+    if (row.category_id) {
+      byCategory[row.category_id] = (byCategory[row.category_id] ?? 0) + 1;
+    }
+  }
+
+  return { total: rows.length, byCategory };
+}
+
 export async function getRelatedProducts(
   categoryId: string | null,
   excludeId: string,

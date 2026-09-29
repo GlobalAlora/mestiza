@@ -66,10 +66,27 @@ video {
 
 /* ── Animaciones ──────────────────────────────────────────────────────────── */
 
-@keyframes fade-slide-up {
+@keyframes catalog-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.catalog-card-enter {
+  animation: catalog-fade 0.4s ease both;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+/* Héroe — entrada teatral específica al split tipográfico de la marca */
+
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -77,9 +94,40 @@ video {
   }
 }
 
-.catalog-card-enter {
-  animation: fade-slide-up 0.35s ease both;
-  animation-delay: var(--card-delay, 0ms);
+.animate-hero-in {
+  animation: hero-fade 0.7s ease-out both;
+}
+
+.animate-hero-soy {
+  animation: hero-fade 0.8s ease-out both;
+}
+
+.animate-hero-mestiza {
+  animation: hero-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Underline deslizante para links de navegación */
+
+.nav-link {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
 }
 
 /* ── Reducción de movimiento (WCAG 2.2 AA) ───────────────────────────────── */
@@ -89,6 +137,7 @@ video {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

@@ -1,60 +1,77 @@
+'use client';
+
+import { useActionState } from 'react';
 import { loginAction } from './actions';
 
-export const metadata = { title: 'Acceso admin | Soy Mestiza' };
-
-export default async function AdminLoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string; next?: string }>;
-}) {
-  const { error, next } = await searchParams;
+export default function AdminLoginPage() {
+  const [state, formAction, pending] = useActionState(loginAction, null);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-100 px-4">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <p className="text-primary font-serif text-3xl select-none">SM</p>
-          <h1 className="text-ink mt-1 text-xl font-semibold">Panel de administración</h1>
-        </div>
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#faf9f7',
+      }}
+    >
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 360,
+          padding: 32,
+          background: '#fff',
+          border: '1px solid #e5e1db',
+        }}
+      >
+        <h1
+          style={{ fontFamily: 'Georgia, serif', fontSize: 22, fontWeight: 400, marginBottom: 8 }}
+        >
+          Soy Mestiza
+        </h1>
+        <p style={{ fontSize: 13, color: '#888', marginBottom: 24 }}>Panel de administración</p>
 
-        <form action={loginAction} className="space-y-4 rounded-lg bg-white p-8 shadow-sm">
-          <input type="hidden" name="next" value={next ?? '/admin'} />
+        <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <label style={{ fontSize: 12, fontWeight: 600, color: '#444', letterSpacing: '0.05em' }}>
+            CONTRASEÑA
+          </label>
+          <input
+            name="password"
+            type="password"
+            required
+            autoComplete="current-password"
+            style={{
+              border: '1px solid #ccc',
+              padding: '8px 12px',
+              fontSize: 14,
+              outline: 'none',
+              width: '100%',
+              boxSizing: 'border-box',
+            }}
+          />
 
-          {error && <p className="bg-error/10 text-error rounded px-3 py-2 text-sm">{error}</p>}
-
-          <div>
-            <label className="text-ink mb-1 block text-sm font-medium" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              className="border-border text-ink focus:ring-primary w-full border px-3 py-2 text-sm outline-none focus:ring-2"
-            />
-          </div>
-
-          <div>
-            <label className="text-ink mb-1 block text-sm font-medium" htmlFor="password">
-              Contraseña
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              className="border-border text-ink focus:ring-primary w-full border px-3 py-2 text-sm outline-none focus:ring-2"
-            />
-          </div>
+          {state?.error && (
+            <p style={{ fontSize: 13, color: '#b00020', margin: 0 }}>{state.error}</p>
+          )}
 
           <button
             type="submit"
-            className="bg-primary text-surface w-full py-2.5 text-sm font-semibold tracking-wide uppercase transition-opacity hover:opacity-85"
+            disabled={pending}
+            style={{
+              marginTop: 8,
+              padding: '10px 16px',
+              background: '#3d1a14',
+              color: '#fff',
+              border: 'none',
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              cursor: pending ? 'wait' : 'pointer',
+              opacity: pending ? 0.7 : 1,
+            }}
           >
-            Ingresar
+            {pending ? 'Verificando…' : 'ENTRAR'}
           </button>
         </form>
       </div>

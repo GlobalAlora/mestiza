@@ -1,36 +1,36 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
 import type { Route } from 'next';
 import { ProductCard } from './product-card';
+import { Pagination } from './pagination';
 import type { ProductCard as ProductCardType } from '../types';
+import type { Category } from '../queries/get-categories';
 
-type Category = {
-  id: string;
-  name: string;
-  slug: string;
+type CatalogCounts = {
+  total: number;
+  byCategory: Record<string, number>;
 };
 
 type Props = {
   products: ProductCardType[];
   categories: Category[];
+  counts: CatalogCounts;
+  currentPage: number;
+  totalPages: number;
+  activeCategory: Category | null;
 };
 
-export function CatalogShell({ products, categories }: Props) {
-  const searchParams = useSearchParams();
+export function CatalogShell({
+  products,
+  categories,
+  counts,
+  currentPage,
+  totalPages,
+  activeCategory,
+}: Props) {
   const router = useRouter();
-
-  const activeSlug = searchParams.get('categoria');
-  const activeCategory = useMemo(
-    () => categories.find((c) => c.slug === activeSlug) ?? null,
-    [categories, activeSlug],
-  );
-
-  const filtered = useMemo(
-    () => (activeCategory ? products.filter((p) => p.category_id === activeCategory.id) : products),
-    [products, activeCategory],
-  );
 
   const selectTab = useCallback(
     (slug: string | null) => {
@@ -40,11 +40,6 @@ export function CatalogShell({ products, categories }: Props) {
     [router],
   );
 
-  const countForSlug = useCallback(
-    (categoryId: string) => products.filter((p) => p.category_id === categoryId).length,
-    [products],
-  );
-
   return (
     <>
       {/* Tabs de filtro */}
@@ -52,42 +47,51 @@ export function CatalogShell({ products, categories }: Props) {
         <nav className="mb-12 flex flex-wrap gap-1.5" aria-label="Categorías">
           <Tab
             label="Todos"
-            count={products.length}
-            active={!activeSlug}
+            count={counts.total}
+            active={!activeCategory}
             onClick={() => selectTab(null)}
           />
           {categories.map((cat) => (
             <Tab
               key={cat.id}
               label={cat.name}
-              count={countForSlug(cat.id)}
-              active={activeSlug === cat.slug}
+              count={counts.byCategory[cat.id] ?? 0}
+              active={activeCategory?.id === cat.id}
               onClick={() => selectTab(cat.slug)}
             />
           ))}
         </nav>
       )}
 
-      {/* Grid con animación stagger en cada cambio de categoría */}
-      {filtered.length === 0 ? (
+      {/* Grid */}
+      {products.length === 0 ? (
         <p className="text-muted py-24 text-center text-sm">
           No hay productos disponibles en esta categoría.
         </p>
       ) : (
         <div
-          key={activeSlug ?? '__all'}
+          key={`${activeCategory?.slug ?? 'all'}-${currentPage}`}
           className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {filtered.map((product, i) => (
+          {products.map((product, i) => (
             <div
               key={product.id}
               className="catalog-card-enter"
-              style={{ '--card-delay': `${i * 45}ms` } as React.CSSProperties}
+              style={{ '--card-delay': `${Math.min(i, 8) * 30}ms` } as React.CSSProperties}
             >
               <ProductCard product={product} />
             </div>
           ))}
         </div>
+      )}
+
+      {/* Paginación */}
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          categorySlug={activeCategory?.slug}
+        />
       )}
     </>
   );
@@ -109,7 +113,7 @@ function Tab({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`group flex items-center gap-2 border px-4 py-2 text-xs font-medium tracking-wide uppercase transition-all duration-200 ${
+      className={`group flex items-center gap-2 border px-4 py-2 text-xs font-medium transition-all duration-200 ${
         active
           ? 'border-primary bg-primary text-surface'
           : 'border-border text-ink hover:border-primary hover:text-primary bg-transparent'
@@ -117,10 +121,10 @@ function Tab({
     >
       {label}
       <span
-        className={`inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-semibold tabular-nums transition-colors ${
+        className={`inline-flex h-4 min-w-4 items-center justify-center px-1 text-[10px] font-medium tabular-nums transition-colors ${
           active
             ? 'bg-surface/20 text-surface'
-            : 'group-hover:bg-primary/10 group-hover:text-primary bg-zinc-100 text-zinc-500'
+            : 'group-hover:bg-primary/10 group-hover:text-primary bg-primary/5 text-muted'
         }`}
       >
         {count}

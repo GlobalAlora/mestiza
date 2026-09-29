@@ -44,12 +44,8 @@ export function ProductCard({ product }: Props) {
             />
           )}
 
-          {/* Hover overlay */}
-          <div className="absolute inset-0 flex items-end justify-center bg-black/0 pb-6 opacity-0 transition-all duration-300 group-hover:bg-black/20 group-hover:opacity-100">
-            <span className="border border-white/80 bg-white/90 px-5 py-2 text-xs font-semibold tracking-widest text-zinc-900 uppercase backdrop-blur-sm">
-              Ver producto
-            </span>
-          </div>
+          {/* Hover reveal: primary line slides across the bottom of the image */}
+          <div className="bg-primary absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
 
           {!inStock && (
             <div className="bg-ink/30 absolute inset-0 flex items-center justify-center">

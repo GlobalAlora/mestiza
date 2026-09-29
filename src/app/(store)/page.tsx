@@ -70,7 +70,7 @@ export default async function HomePage() {
 
         <div className="relative z-10">
           <p
-            className={`mb-4 font-serif text-sm italic ${
+            className={`animate-hero-in mb-4 font-serif text-sm italic [animation-delay:0s] ${
               hasHeroVideo ? 'text-white/55' : 'text-muted'
             }`}
           >
@@ -80,14 +80,14 @@ export default async function HomePage() {
           {/* Typographic hero — "Soy" whispers, "Mestiza" fills the frame */}
           <h1 id="hero-heading" className="font-serif leading-none">
             <span
-              className={`block text-[1.6rem] font-light tracking-[0.05em] md:text-[2.5rem] ${
+              className={`animate-hero-soy block text-[1.6rem] font-light tracking-[0.05em] [animation-delay:0.25s] md:text-[2.5rem] ${
                 hasHeroVideo ? 'text-white/60' : 'text-primary/55'
               }`}
             >
               Soy
             </span>
             <span
-              className={`block text-[5.5rem] tracking-[-0.03em] md:text-[9rem] lg:text-[11.5rem] ${
+              className={`animate-hero-mestiza block text-[5.5rem] tracking-[-0.03em] [animation-delay:0.5s] md:text-[9rem] lg:text-[11.5rem] ${
                 hasHeroVideo ? 'text-white' : 'text-primary'
               }`}
             >
@@ -96,7 +96,7 @@ export default async function HomePage() {
           </h1>
 
           <p
-            className={`mt-7 max-w-xs text-base leading-relaxed font-light tracking-wide md:max-w-sm md:text-lg ${
+            className={`animate-hero-in mt-7 max-w-xs text-base leading-relaxed font-light tracking-wide [animation-delay:0.9s] md:max-w-sm md:text-lg ${
               hasHeroVideo ? 'text-white/65' : 'text-muted'
             }`}
           >
@@ -104,7 +104,7 @@ export default async function HomePage() {
           </p>
           <Link
             href="/tienda"
-            className={`mt-10 inline-block px-8 py-3 text-xs font-semibold tracking-[0.12em] uppercase transition-opacity hover:opacity-85 ${
+            className={`animate-hero-in mt-10 inline-block px-8 py-3 text-xs font-semibold tracking-[0.12em] uppercase transition-opacity [animation-delay:1.1s] hover:opacity-85 ${
               hasHeroVideo
                 ? 'border border-white/70 text-white hover:bg-white/10'
                 : 'bg-primary text-surface'
