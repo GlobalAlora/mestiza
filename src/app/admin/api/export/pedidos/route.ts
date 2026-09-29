@@ -6,7 +6,36 @@ function csvRow(cells: string[]): string {
   return cells.map((c) => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',');
 }
 
-export async function GET(): Promise<NextResponse> {
+const VALID_STATUSES = [
+  'pending',
+  'confirmed',
+  'preparing',
+  'shipped',
+  'ready_for_pickup',
+  'delivered',
+  'cancelled',
+] as const;
+type OrderStatus = (typeof VALID_STATUSES)[number];
+
+function formatAddress(addr: unknown): string {
+  if (!addr || typeof addr !== 'object') return '';
+  const a = addr as Record<string, string>;
+  const parts = [
+    a.street && a.number ? `${a.street} ${a.number}${a.apartment ? ` ${a.apartment}` : ''}` : '',
+    a.city ?? '',
+    a.province ?? '',
+    a.postalCode ? `CP ${a.postalCode}` : '',
+  ].filter(Boolean);
+  return parts.join(', ');
+}
+
+export async function GET(request: Request): Promise<NextResponse> {
+  const { searchParams } = new URL(request.url);
+  const statusParam = searchParams.get('status');
+  const validStatus = VALID_STATUSES.includes(statusParam as OrderStatus)
+    ? (statusParam as OrderStatus)
+    : undefined;
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -17,7 +46,7 @@ export async function GET(): Promise<NextResponse> {
   const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
   if (profile?.role !== 'admin') return new NextResponse('Sin permisos', { status: 403 });
 
-  const { data: orders } = await db
+  let query = db
     .from('orders')
     .select(
       `order_number, first_name, last_name, email, phone,
@@ -26,6 +55,10 @@ export async function GET(): Promise<NextResponse> {
        order_items(product_name, variant_name, sku, quantity, unit_price_cents, subtotal_cents)`,
     )
     .order('created_at', { ascending: false });
+
+  if (validStatus) query = query.eq('status', validStatus);
+
+  const { data: orders } = await query;
 
   const header = csvRow([
     'N° Pedido',
@@ -61,7 +94,7 @@ export async function GET(): Promise<NextResponse> {
   for (const order of orders ?? []) {
     const items = (order.order_items as OrderItem[]) ?? [];
     const date = new Date(order.created_at).toLocaleDateString('es-AR');
-    const address = order.shipping_address ? JSON.stringify(order.shipping_address) : '';
+    const address = formatAddress(order.shipping_address);
 
     if (items.length === 0) {
       rows.push(
