@@ -58,6 +58,7 @@ export function ProductForm({ action, defaultValues, categories, submitLabel }: 
     })) ?? [emptyVariant()],
   );
   const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const updateVariant = (i: number, field: keyof Variant, value: string) => {
     setVariants((prev) => prev.map((v, idx) => (idx === i ? { ...v, [field]: value } : v)));
@@ -82,11 +83,15 @@ export function ProductForm({ action, defaultValues, categories, submitLabel }: 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPending(true);
+    setMessage(null);
     const fd = new FormData(e.currentTarget);
     fd.set('slug', slug);
     fd.set('variants', JSON.stringify(serializeVariants()));
     try {
       await action(fd);
+      setMessage({ type: 'success', text: 'Cambios guardados correctamente.' });
+    } catch (err) {
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Error al guardar.' });
     } finally {
       setPending(false);
     }
@@ -275,7 +280,7 @@ export function ProductForm({ action, defaultValues, categories, submitLabel }: 
         </div>
       </section>
 
-      <div className="flex gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
           disabled={pending}
@@ -289,6 +294,13 @@ export function ProductForm({ action, defaultValues, categories, submitLabel }: 
         >
           Cancelar
         </Link>
+        {message && (
+          <p
+            className={`text-sm font-medium ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}
+          >
+            {message.type === 'success' ? '✓' : '✕'} {message.text}
+          </p>
+        )}
       </div>
     </form>
   );
