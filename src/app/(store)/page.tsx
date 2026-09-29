@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { buildMetadata, websiteJsonLd, organizationJsonLd } from '@/lib/seo';
 import { getFeaturedProducts } from '@/features/catalog/queries/get-products';
 import { ProductCard } from '@/features/catalog/components/product-card';
+import { Reveal } from '@/components/ui/reveal';
 import { getContentMap, c } from '@/lib/content';
 
 export const revalidate = 3600;
@@ -168,7 +169,7 @@ export default async function HomePage() {
       <section className="border-border border-t px-4 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
-            <div>
+            <Reveal>
               <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar1_stat', '2.000')}
               </p>
@@ -182,9 +183,9 @@ export default async function HomePage() {
                   'Viñedos en la Precordillera de Calingasta, donde la altitud extrema concentra aromas, estructura y carácter único.',
                 )}
               </p>
-            </div>
+            </Reveal>
 
-            <div className="border-border md:border-x md:px-8">
+            <Reveal delay={120} className="border-border md:border-x md:px-8">
               <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar2_stat', '4')}
               </p>
@@ -198,9 +199,9 @@ export default async function HomePage() {
                   'Flamenco, árabe, folclore y tango fundidos en una obra que da nombre e identidad a cada etiqueta.',
                 )}
               </p>
-            </div>
+            </Reveal>
 
-            <div>
+            <Reveal delay={240}>
               <p className="text-primary font-serif text-6xl leading-none tracking-[-0.02em] md:text-7xl">
                 {c(content, 'home.pilar3_stat', '1')}
               </p>
@@ -214,7 +215,7 @@ export default async function HomePage() {
                   'Calingasta es uno de los pocos valles de altura de Argentina con condiciones únicas para vinos de autor.',
                 )}
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -240,7 +241,7 @@ export default async function HomePage() {
               hasObraImage ? '' : 'text-center'
             }`}
           >
-            <div className={`${hasObraImage ? 'max-w-lg' : 'mx-auto max-w-prose text-center'}`}>
+            <Reveal className={`${hasObraImage ? 'max-w-lg' : 'mx-auto max-w-prose text-center'}`}>
               <p className="text-muted mb-4 font-serif text-sm italic">
                 {c(content, 'home.obra_label', 'La obra')}
               </p>
@@ -259,14 +260,14 @@ export default async function HomePage() {
               >
                 {c(content, 'home.obra_cta', 'Conocé la historia')}
               </Link>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Reconocimientos */}
       <section className="bg-primary px-4 py-24 text-center" aria-labelledby="prensa-heading">
-        <div className="mx-auto max-w-2xl">
+        <Reveal className="mx-auto max-w-2xl">
           <p id="prensa-heading" className="mb-14 font-serif text-sm text-white/50 italic">
             {c(content, 'home.prensa_label', 'Reconocimientos')}
           </p>
@@ -314,7 +315,7 @@ export default async function HomePage() {
               </blockquote>
             </>
           )}
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -156,7 +156,10 @@ export function Header({ navItems = mainNav }: HeaderProps) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav aria-label="Navegación móvil" className="border-border bg-surface border-t md:hidden">
+        <nav
+          aria-label="Navegación móvil"
+          className="animate-menu-down border-border bg-surface border-t md:hidden"
+        >
           <ul className="flex flex-col py-2" role="list">
             {navItems.map((item) => (
               <li key={item.href}>
