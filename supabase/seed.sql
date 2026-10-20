@@ -18,40 +18,44 @@ insert into public.products (id, category_id, name, slug, description, attribute
   (
     '00000000-0000-0000-0001-000000000001',
     '00000000-0000-0000-0000-000000000001',
-    'Soy Mestiza Malbec',
-    'soy-mestiza-malbec',
-    'Malbec de altura del Valle de Calingasta (1.200 msnm). Notas de frutas rojas maduras, violetas y un toque especiado. Ideal para carnes rojas y quesos curados.',
+    'Soy Mestiza Dulce Natural',
+    'soy-mestiza-dulce-natural',
+    'Moscatel Dulce Natural del Valle de Calingasta, San Juan. Color amarillo pálido con reflejos verdosos y destellos dorados. En nariz, aromas florales y frutales: uva fresca, durazno blanco, pera y matices cítricos, con recuerdos de azahar y jazmín. En boca, entrada dulce y amable con una sensación fresca que acompaña su expresión frutal. Final aromático y delicado, con persistencia frutal y recuerdo de flores blancas.',
     '{
-      "varietal": "Malbec",
-      "vintage_year": 2023,
-      "region": "Valle de Calingasta, San Juan",
-      "altitude_masl": 1200,
-      "tasting_notes": "Frutas rojas maduras, violetas, toque especiado. Taninos suaves y final persistente.",
-      "pairing": "Carnes rojas, quesos curados, pastas con salsa roja.",
-      "alcohol_pct": 14.0,
-      "producer": "Soy Mestiza — Como el vino"
+      "varietal": "Moscatel",
+      "style": "Dulce Natural",
+      "region": "Valle de Calingasta, San Juan, Argentina",
+      "oak": "Sin madera",
+      "visual": "Amarillo pálido con reflejos verdosos y destellos dorados. Límpido y brillante.",
+      "nose": "Expresivo, fresco y perfumado. Uva fresca, durazno blanco, pera, matices cítricos. Azahar y jazmín.",
+      "palate": "Entrada dulce y amable. Cuerpo ligero a medio. Equilibrio entre dulzura y acidez. Final aromático con recuerdo de flores blancas.",
+      "pairing": "Postres frutales, tortas, quesos suaves, picadas dulces. Aperitivo.",
+      "producer": "Soy Mestiza — Como el vino",
+      "label_tagline": "La fusión. Mestiza en tu paladar despierta nuevos sentidos."
     }'::jsonb,
     'published',
-    true
+    false
   ),
   (
     '00000000-0000-0000-0001-000000000002',
     '00000000-0000-0000-0000-000000000001',
-    'Soy Mestiza Cabernet Franc',
-    'soy-mestiza-cabernet-franc',
-    'Cabernet Franc de altura del Valle de Calingasta. Elegante y aromático, con notas herbales, pimienta verde y frutos rojos. Versátil en la mesa.',
+    'Soy Mestiza Cabernet Malbec',
+    'soy-mestiza-cabernet-malbec',
+    'Cabernet Sauvignon - Malbec del Valle de Calingasta, San Juan. 8 meses de crianza en roble francés. Color rojo rubí profundo con matices violetas y destellos granate. En nariz, alta intensidad: cassis, moras y arándanos, matices pirazínicos de pimiento y pimienta negra, tomillo y jarilla autóctona, con dejos sutiles de vainilla, cacao y tabaco rubio aportados por el roble. En boca ingresa con fluidez y acidez viva. Taninos firmes con textura tiza/grava, característica mineral de la altura de Calingasta. Final largo y elegante con retrogusto de frutos secos tostados y chocolate amargo.',
     '{
-      "varietal": "Cabernet Franc",
-      "vintage_year": 2023,
-      "region": "Valle de Calingasta, San Juan",
-      "altitude_masl": 1200,
-      "tasting_notes": "Pimiento, pimienta verde, frutos rojos. Cuerpo medio, acidez fresca y taninos finos.",
-      "pairing": "Cordero, cerdo, vegetales asados, tablas de quesos.",
-      "alcohol_pct": 13.5,
-      "producer": "Soy Mestiza — Como el vino"
+      "varietal": "Cabernet Sauvignon - Malbec",
+      "style": "Tinto seco",
+      "region": "Valle de Calingasta, San Juan, Argentina",
+      "oak": "8 meses en roble francés",
+      "visual": "Rojo rubí profundo con matices violetas intensos y destellos granate. Lágrimas de caída lenta.",
+      "nose": "Alta intensidad, fresco y mineral. Cassis, moras, arándanos, frutas rojas silvestres. Pimiento rojo asado, pimienta negra, tomillo, jarilla autóctona. Vainilla, cacao amargo, tabaco rubio, sutiles ahumados.",
+      "palate": "Acidez viva y vertiginosa. Cuerpo medio a pleno. Taninos firmes, textura tiza/grava (sensación mineral). Evolución con jugosidad de fruta negra y especiado del Cabernet. Final largo y elegante, retrogusto de frutos secos tostados y chocolate amargo.",
+      "pairing": "Carnes rojas al asador, cordero, pastas con salsa de carne, quesos duros y estacionados.",
+      "producer": "Soy Mestiza — Como el vino",
+      "label_tagline": "La fusión. Mestiza en tu paladar despierta nuevos sentidos."
     }'::jsonb,
     'published',
-    true
+    false
   );
 
 -- ─────────────────────────────────────────
@@ -60,11 +64,11 @@ insert into public.products (id, category_id, name, slug, description, attribute
 -- ─────────────────────────────────────────
 
 insert into public.product_variants (id, product_id, name, sku, price_cents, stock, weight_grams, position) values
-  -- Malbec
-  ('00000000-0000-0000-0002-000000000001', '00000000-0000-0000-0001-000000000001', '750 ml',   'SM-MAL-750',   250000,  50, 1250, 1),
-  ('00000000-0000-0000-0002-000000000002', '00000000-0000-0000-0001-000000000001', 'Caja x 3', 'SM-MAL-CAJ3',  690000,  20, 4000, 2),
-  ('00000000-0000-0000-0002-000000000003', '00000000-0000-0000-0001-000000000001', 'Caja x 6', 'SM-MAL-CAJ6', 1320000,  10, 7800, 3),
-  -- Cabernet Franc
+  -- Dulce Natural (Moscatel)
+  ('00000000-0000-0000-0002-000000000001', '00000000-0000-0000-0001-000000000001', '750 ml',   'SM-DUL-750',   250000,  50, 1250, 1),
+  ('00000000-0000-0000-0002-000000000002', '00000000-0000-0000-0001-000000000001', 'Caja x 3', 'SM-DUL-CAJ3',  690000,  20, 4000, 2),
+  ('00000000-0000-0000-0002-000000000003', '00000000-0000-0000-0001-000000000001', 'Caja x 6', 'SM-DUL-CAJ6', 1320000,  10, 7800, 3),
+  -- Cabernet Malbec
   ('00000000-0000-0000-0002-000000000004', '00000000-0000-0000-0001-000000000002', '750 ml',   'SM-CAB-750',   250000,  50, 1250, 1),
   ('00000000-0000-0000-0002-000000000005', '00000000-0000-0000-0001-000000000002', 'Caja x 3', 'SM-CAB-CAJ3',  690000,  20, 4000, 2),
   ('00000000-0000-0000-0002-000000000006', '00000000-0000-0000-0001-000000000002', 'Caja x 6', 'SM-CAB-CAJ6', 1320000,  10, 7800, 3);
@@ -79,7 +83,7 @@ insert into public.shipping_methods (id, name, type, is_active, zones, position)
     'Envío a domicilio — Buenos Aires',
     'delivery',
     true,
-    '[{"name": "AMBA / Buenos Aires", "price_cents": 350000}]'::jsonb,
+    '[{"name": "AMBA / Buenos Aires", "base_rate_cents": 350000}]'::jsonb,
     1
   ),
   (
@@ -87,7 +91,7 @@ insert into public.shipping_methods (id, name, type, is_active, zones, position)
     'Envío a domicilio — Interior',
     'delivery',
     true,
-    '[{"name": "Interior del país", "price_cents": 600000}]'::jsonb,
+    '[{"name": "Interior del país", "base_rate_cents": 600000}]'::jsonb,
     2
   ),
   (
@@ -104,8 +108,8 @@ insert into public.shipping_methods (id, name, type, is_active, zones, position)
 -- ─────────────────────────────────────────
 
 insert into public.content_blocks (key, type, value) values
-  ('hero_title',      'text',       '{"text": "Como el vino, Soy Mestiza"}'),
-  ('hero_subtitle',   'text',       '{"text": "Un vino de altura del Valle de Calingasta, San Juan. Nacido de la tierra y del escenario."}'),
-  ('about_title',     'text',       '{"text": "La obra"}'),
-  ('about_text',      'rich_text',  '{"html": "<p>Soy Mestiza nació en el escenario. Un vino pensado para quienes valoran la tierra, la identidad y el encuentro.</p>"}'),
+  ('hero_title',      'text',       '{"text": "Donde el arte, la tierra y el vino se encuentran"}'),
+  ('hero_subtitle',   'text',       '{"text": "Dos vinos, dos emociones. Una misma esencia. Desde el Valle de Calingasta, San Juan."}'),
+  ('about_title',     'text',       '{"text": "Soy Mestiza"}'),
+  ('about_text',      'rich_text',  '{"html": "<p>Soy Mestiza nace del universo creativo de Mariana Clemensó y de una manera de sentir la vida: como una fusión de raíces, culturas, caminos y emociones.</p><p>Soy Mestiza es encuentro. Es memoria y presente. Es aquello que llevamos de quienes estuvieron antes y lo nuevo que nace cuando distintas historias se abrazan.</p><p>Y esa misma esencia que Mariana llevó al escenario a través de la música, la danza y la emoción, hoy encuentra una nueva forma de expresarse: el vino.</p><p>Desde San Juan, tierra de sol, montaña y tradición vitivinícola, nace Soy Mestiza, una colección de vinos que busca despertar los sentidos y convertir cada copa en una experiencia.</p><p>Porque detrás de cada botella hay una tierra que habla, una historia que contar y una emoción esperando ser descubierta.</p>"}'),
   ('legal_notice',    'text',       '{"text": "Beber con moderación. Prohibida su venta a menores de 18 años. Ley 24.788."}');

@@ -10,20 +10,32 @@
  */
 
 @theme {
-  /* ── Paleta de colores placeholder ────────────────────────────────────── */
+  /* ── Paleta de colores — inspirada en los vestidos de la obra ────────── */
   /* Tonos calculados en oklch para soporte wide-gamut (P3) */
 
-  /* Vino / Burdeos oscuro — color dominante de la marca */
-  --color-primary: oklch(32% 0.09 28);
+  /* Vino — color dominante, botones, navbar */
+  --color-primary: oklch(30% 0.10 18);
 
-  /* Dorado / Champagne — acento elegante */
-  --color-accent: oklch(74% 0.11 72);
+  /* Dorado — acento elegante, precios, íconos */
+  --color-accent: oklch(72% 0.14 68);
 
-  /* Crema / Off-white — fondo del sitio */
-  --color-surface: oklch(97% 0.01 82);
+  /* Lila — badges de varietal, categorías, highlights teatrales */
+  --color-lila: oklch(65% 0.13 290);
+
+  /* Rosa — vinos rosados, tags secundarios */
+  --color-rosa: oklch(68% 0.14 358);
+
+  /* Rojo — énfasis, llamadas a la acción alternativas */
+  --color-rojo: oklch(52% 0.21 25);
+
+  /* Amarillo — novedades, ofertas, alertas */
+  --color-amarillo: oklch(82% 0.17 86);
+
+  /* Crema / Blanco cálido — fondo del sitio, superficies */
+  --color-surface: oklch(97% 0.01 80);
 
   /* Tinta / Near-black — texto principal */
-  --color-ink: oklch(16% 0.02 30);
+  --color-ink: oklch(15% 0.03 20);
 
   /* Atenuado — texto secundario y placeholders */
   --color-muted: oklch(52% 0.04 30);
