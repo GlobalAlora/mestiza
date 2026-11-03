@@ -7,7 +7,7 @@ export function AccountIcon() {
     <Link
       href="/mi-cuenta"
       aria-label="Mi cuenta"
-      className="text-ink hover:text-primary transition-colors"
+      className="text-surface/80 hover:text-accent transition-colors"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

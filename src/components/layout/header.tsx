@@ -78,7 +78,7 @@ export function Header({ navItems = mainNav }: HeaderProps) {
   }
 
   return (
-    <header className="border-border bg-surface/90 sticky top-0 z-40 w-full border-b backdrop-blur-sm">
+    <header className="border-primary/30 bg-primary/95 sticky top-0 z-40 w-full border-b backdrop-blur-sm">
       <div className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4">
         {/* Skip to main content — accessibility */}
         <a
@@ -96,7 +96,7 @@ export function Header({ navItems = mainNav }: HeaderProps) {
                 <li key={item.href}>
                   <Link
                     href={item.href as Route}
-                    className="nav-link text-ink hover:text-primary text-sm transition-colors"
+                    className="nav-link text-surface/80 hover:text-accent text-sm transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -105,7 +105,7 @@ export function Header({ navItems = mainNav }: HeaderProps) {
             </ul>
           </nav>
           <button
-            className="text-ink hover:text-primary transition-colors md:hidden"
+            className="text-surface/80 hover:text-accent transition-colors md:hidden"
             aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
@@ -117,11 +117,13 @@ export function Header({ navItems = mainNav }: HeaderProps) {
         {/* Center: logo */}
         <Link
           href="/"
-          className="text-primary font-serif text-xl font-medium transition-opacity hover:opacity-80"
+          className="flex justify-center transition-opacity hover:opacity-80"
           aria-label={`${siteConfig.name} — inicio`}
           onClick={closeMobile}
         >
-          {siteConfig.name}
+          <span className="text-accent font-serif text-2xl leading-none tracking-wide italic select-none">
+            Soy Mestiza
+          </span>
         </Link>
 
         {/* Right: desktop nav (last 2 items) + icons */}
@@ -132,7 +134,7 @@ export function Header({ navItems = mainNav }: HeaderProps) {
                 <li key={item.href}>
                   <Link
                     href={item.href as Route}
-                    className="nav-link text-ink hover:text-primary text-sm transition-colors"
+                    className="nav-link text-surface/80 hover:text-accent text-sm transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -145,7 +147,7 @@ export function Header({ navItems = mainNav }: HeaderProps) {
             <button
               onClick={openDrawer}
               aria-label="Abrir carrito de compras"
-              className="text-ink hover:text-primary relative transition-colors"
+              className="text-surface/80 hover:text-accent relative transition-colors"
             >
               <CartIcon />
               <CartCount />
@@ -158,14 +160,14 @@ export function Header({ navItems = mainNav }: HeaderProps) {
       {mobileOpen && (
         <nav
           aria-label="Navegación móvil"
-          className="animate-menu-down border-border bg-surface border-t md:hidden"
+          className="animate-menu-down border-primary/30 bg-primary border-t md:hidden"
         >
           <ul className="flex flex-col py-2" role="list">
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href as Route}
-                  className="text-ink hover:text-primary block px-4 py-3 text-sm transition-colors"
+                  className="text-surface/80 hover:text-accent block px-4 py-3 text-sm transition-colors"
                   onClick={closeMobile}
                 >
                   {item.label}
