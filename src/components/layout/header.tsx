@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Route } from 'next';
 import { mainNav } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
@@ -121,9 +122,15 @@ export function Header({ navItems = mainNav }: HeaderProps) {
           aria-label={`${siteConfig.name} — inicio`}
           onClick={closeMobile}
         >
-          <span className="text-accent font-serif text-2xl leading-none tracking-wide italic select-none">
-            Soy Mestiza
-          </span>
+          <Image
+            src="/logo.png"
+            alt="Soy Mestiza"
+            width={160}
+            height={52}
+            className="select-none"
+            style={{ mixBlendMode: 'lighten' }}
+            priority
+          />
         </Link>
 
         {/* Right: desktop nav (last 2 items) + icons */}
