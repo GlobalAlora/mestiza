@@ -119,7 +119,7 @@ const statusMessages: Record<string, { subject: string; body: string }> = {
   },
   cancelled: {
     subject: 'Tu pedido fue cancelado',
-    body: 'Lamentamos informarte que tu pedido fue cancelado. Si tenés alguna duda, escribinos a hola@soymestiza.com.',
+    body: 'Lamentamos informarte que tu pedido fue cancelado. Si tenés alguna duda, escribinos a hola@soymestiza.com.ar.',
   },
 };
 

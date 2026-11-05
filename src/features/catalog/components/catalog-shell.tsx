@@ -51,15 +51,17 @@ export function CatalogShell({
             active={!activeCategory}
             onClick={() => selectTab(null)}
           />
-          {categories.map((cat) => (
-            <Tab
-              key={cat.id}
-              label={cat.name}
-              count={counts.byCategory[cat.id] ?? 0}
-              active={activeCategory?.id === cat.id}
-              onClick={() => selectTab(cat.slug)}
-            />
-          ))}
+          {categories
+            .filter((cat) => (counts.byCategory[cat.id] ?? 0) > 0)
+            .map((cat) => (
+              <Tab
+                key={cat.id}
+                label={cat.name}
+                count={counts.byCategory[cat.id] ?? 0}
+                active={activeCategory?.id === cat.id}
+                onClick={() => selectTab(cat.slug)}
+              />
+            ))}
         </nav>
       )}
 
