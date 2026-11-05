@@ -14,6 +14,7 @@ const contactSchema = z.object({
   lastName: z.string().min(1).max(100),
   email: z.string().email(),
   phone: z.string().min(6).max(30),
+  dni: z.string().min(7).max(9).regex(/^\d+$/, 'El DNI debe contener solo números'),
 });
 
 const addressSchema = z.object({
@@ -139,6 +140,7 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
       last_name: data.contact.lastName,
       email: data.contact.email,
       phone: data.contact.phone,
+      dni: data.contact.dni,
       shipping_method_id: data.shippingMethodId,
       shipping_type: shippingMethod.type,
       shipping_address: data.address ?? null,

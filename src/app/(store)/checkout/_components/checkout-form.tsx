@@ -18,6 +18,7 @@ type ContactData = {
   lastName: string;
   email: string;
   phone: string;
+  dni: string;
 };
 
 type AddressData = {
@@ -47,6 +48,7 @@ export function CheckoutForm({ shippingMethods, content }: Props) {
     lastName: '',
     email: '',
     phone: '',
+    dni: '',
   });
   const [selectedMethodId, setSelectedMethodId] = useState<string>(shippingMethods[0]?.id ?? '');
   const [address, setAddress] = useState<AddressData>({
@@ -86,6 +88,7 @@ export function CheckoutForm({ shippingMethods, content }: Props) {
       lastName: fd.get('lastName') as string,
       email: fd.get('email') as string,
       phone: fd.get('phone') as string,
+      dni: fd.get('dni') as string,
     });
     setStep('shipping');
   }
@@ -240,6 +243,21 @@ export function CheckoutForm({ shippingMethods, content }: Props) {
                 required
                 defaultValue={contact.phone}
                 placeholder="+54 9 11 1234 5678"
+                className="border-border focus:ring-primary w-full border px-3 py-2 text-sm outline-none focus:ring-2"
+              />
+            </div>
+            <div>
+              <label className="text-ink mb-1 block text-sm font-medium">
+                {ct('checkout.field_dni', 'DNI')} *
+              </label>
+              <input
+                name="dni"
+                type="text"
+                required
+                inputMode="numeric"
+                pattern="\d{7,9}"
+                defaultValue={contact.dni}
+                placeholder="12345678"
                 className="border-border focus:ring-primary w-full border px-3 py-2 text-sm outline-none focus:ring-2"
               />
             </div>
@@ -458,7 +476,8 @@ export function CheckoutForm({ shippingMethods, content }: Props) {
               <strong className="text-ink">
                 {ct('checkout.review_contact_label', 'Contacto')}:
               </strong>{' '}
-              {contact.firstName} {contact.lastName} · {contact.email} · {contact.phone}
+              {contact.firstName} {contact.lastName} · {contact.email} · {contact.phone} · DNI{' '}
+              {contact.dni}
             </p>
             {isDelivery && address.street && (
               <p>
