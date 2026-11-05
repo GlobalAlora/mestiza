@@ -13,7 +13,7 @@ export default function EnviosPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-20">
       <h1 className="text-primary mb-2 font-serif text-4xl">Política de envíos</h1>
-      <p className="text-muted mb-12 text-xs">Última actualización: septiembre 2026</p>
+      <p className="text-muted mb-12 text-xs">Última actualización: noviembre 2026</p>
 
       <div className="text-ink space-y-8 text-sm leading-relaxed">
         <section>

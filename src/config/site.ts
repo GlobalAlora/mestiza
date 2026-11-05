@@ -3,12 +3,12 @@ export const siteConfig = {
   tagline: 'Vinos de altura del corazón de Cuyo.',
   description:
     'Vinos de altura de Calingasta, San Juan. Nacidos del universo flamenco, árabe y folclórico de la obra ganadora del Carlos de Oro "Como el vino, Soy Mestiza".',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://soymestiza.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://soymestiza.com.ar',
   social: {
     instagram: 'https://instagram.com/soymestiza',
   },
   contact: {
-    email: 'hola@soymestiza.com',
+    email: 'hola@soymestiza.com.ar',
   },
   legal: {
     minAge: 18,
