@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import Script from 'next/script';
 import { siteConfig } from '@/config/site';
@@ -164,6 +165,79 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Regalos */}
+      <section className="border-border border-t px-4 py-20" aria-labelledby="regalos-heading">
+        <div className="mx-auto max-w-6xl">
+          {/* Header row: title left, text + CTA right */}
+          <div className="border-border mb-14 grid grid-cols-1 gap-8 border-b pb-10 md:grid-cols-2 md:items-end">
+            <Reveal>
+              <p className="text-muted font-serif text-sm italic">
+                {c(content, 'home.regalos_label', 'Kits de regalo')}
+              </p>
+              <h2
+                id="regalos-heading"
+                className="text-primary mt-2 font-serif text-4xl leading-tight md:text-5xl"
+              >
+                {c(content, 'home.regalos_title', 'El regalo perfecto')}
+              </h2>
+            </Reveal>
+            <Reveal delay={80}>
+              <p className="text-muted text-base leading-relaxed">
+                {c(
+                  content,
+                  'home.regalos_body',
+                  'Kits exclusivos con nuestros vinos de altura, copas personalizadas y packaging premium. Una experiencia para regalar y recordar.',
+                )}
+              </p>
+            </Reveal>
+          </div>
+
+          {/* 4 photos: 2 cols on mobile, 4 cols on desktop, alternating stagger */}
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            <div className="overflow-hidden">
+              <Image
+                src="/images/regalos/kit-vino-tinto.jpg"
+                alt="Kit de regalo Soy Mestiza"
+                width={400}
+                height={533}
+                className="block h-auto w-full transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="mt-10 overflow-hidden">
+              <Image
+                src="/images/regalos/kit-vino-blanco.jpg"
+                alt="Kit de regalo Soy Mestiza con copas"
+                width={400}
+                height={533}
+                className="block h-auto w-full transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="overflow-hidden">
+              <Image
+                src="/images/regalos/regalo-4.jpg"
+                alt="Packaging premium Soy Mestiza"
+                width={400}
+                height={533}
+                className="block h-auto w-full transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+            <div className="mt-10 overflow-hidden">
+              <Image
+                src="/images/regalos/regalo-5.jpg"
+                alt="Caja regalo Soy Mestiza"
+                width={400}
+                height={533}
+                className="block h-auto w-full transition-transform duration-700 hover:scale-105"
+                sizes="(max-width: 768px) 50vw, 25vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Pilares */}
       <section className="border-border border-t px-4 py-20">

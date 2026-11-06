@@ -82,6 +82,26 @@ const SECTIONS: { title: string; description: string; fields: FieldDef[] }[] = [
         placeholder: 'Colección',
       },
       {
+        key: 'home.regalos_label',
+        label: 'Regalos — etiqueta pequeña',
+        type: 'input',
+        placeholder: 'Kits de regalo',
+      },
+      {
+        key: 'home.regalos_title',
+        label: 'Regalos — título',
+        type: 'input',
+        placeholder: 'El regalo perfecto',
+      },
+      {
+        key: 'home.regalos_body',
+        label: 'Regalos — descripción',
+        type: 'textarea',
+        rows: 3,
+        placeholder:
+          'Kits exclusivos con nuestros vinos de altura, copas personalizadas y packaging premium. Una experiencia para regalar y recordar.',
+      },
+      {
         key: 'home.obra_title',
         label: 'Título sección "La obra"',
         type: 'input',
