@@ -253,6 +253,7 @@ export interface Database {
           last_name: string
           email: string
           phone: string
+          dni: string | null
           shipping_method_id: string | null
           shipping_type: Database['public']['Enums']['shipping_method_type']
           shipping_address: Json | null
@@ -277,6 +278,7 @@ export interface Database {
           last_name: string
           email: string
           phone: string
+          dni?: string | null
           shipping_method_id?: string | null
           shipping_type: Database['public']['Enums']['shipping_method_type']
           shipping_address?: Json | null
@@ -301,6 +303,7 @@ export interface Database {
           last_name?: string
           email?: string
           phone?: string
+          dni?: string | null
           shipping_method_id?: string | null
           shipping_type?: Database['public']['Enums']['shipping_method_type']
           shipping_address?: Json | null
