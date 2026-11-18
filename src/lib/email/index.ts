@@ -80,7 +80,7 @@ export async function sendOrderReceivedEmail(data: OrderEmailData): Promise<void
 }
 
 export async function sendNewOrderAdminEmail(
-  data: OrderEmailData & { adminEmail: string },
+  data: OrderEmailData & { adminEmail: string | string[] },
 ): Promise<void> {
   const html = `
     <h2>Nuevo pedido #${data.orderNumber}</h2>

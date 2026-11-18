@@ -211,10 +211,12 @@ export async function createOrder(input: CreateOrderInput): Promise<CreateOrderR
   // Email al cliente — confirmación de recepción
   sendOrderReceivedEmail(emailPayload).catch(() => {});
 
-  // Email al admin — notificación de nuevo pedido
-  // Destination: ADMIN_NOTIFICATION_EMAIL env var, fallback to siteConfig contact email
-  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL ?? siteConfig.contact.email;
-  sendNewOrderAdminEmail({ ...emailPayload, adminEmail }).catch(() => {});
+  // Email al admin — notificación de nuevo pedido (soporta varios emails separados por coma)
+  const adminEmails = (process.env.ADMIN_NOTIFICATION_EMAIL ?? siteConfig.contact.email)
+    .split(',')
+    .map((e) => e.trim())
+    .filter(Boolean);
+  sendNewOrderAdminEmail({ ...emailPayload, adminEmail: adminEmails }).catch(() => {});
 
   return { ok: true, accessToken, initPoint };
 }
