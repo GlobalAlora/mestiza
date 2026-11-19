@@ -26,8 +26,8 @@ const envSchema = z.object({
   // ── Email ─────────────────────────────────────────────────────────────────
   RESEND_API_KEY: z.string().optional(),
   RESEND_FROM_EMAIL: z.string().email().optional(),
-  // Destination for new-order notifications. Defaults to siteConfig.contact.email.
-  ADMIN_NOTIFICATION_EMAIL: z.string().email().optional(),
+  // Destination for new-order notifications. Comma-separated for multiple. Defaults to siteConfig.contact.email.
+  ADMIN_NOTIFICATION_EMAIL: z.string().optional(),
 
   // ── Upstash Redis (rate limiting) ─────────────────────────────────────────
   UPSTASH_REDIS_REST_URL: z.string().url().optional(),
