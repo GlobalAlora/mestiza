@@ -13,7 +13,6 @@ const fontSans = Jost({
 const fontSerif = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600'],
-  style: ['normal', 'italic'],
   variable: '--font-serif',
   display: 'swap',
 });
